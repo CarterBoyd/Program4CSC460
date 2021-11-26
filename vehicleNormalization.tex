@@ -48,7 +48,10 @@ I know that for a given CK it should determine all attributes in the relation, b
 
 \{VIN\} $\longrightarrow$ \{Make, Model, LicenseNumber\}\\
 \{LicenseNumber, Make, Model\} $\longrightarrow$ \{VIN\}\\
-%\{LicenseNumber\} $\longrightarrow$ \{Make, Model, VIN\}\\
+\{VIN\} $\longrightarrow$ \{LicenseNumber\}\\
+\{VIN\} $\longrightarrow$ \{Make\}\\
+\{VIN\} $\longrightarrow$ \{Model\}\\
+\{VIN\} $\longrightarrow$ \{VIN\}\\
 
 \underline{Step \#3 (1NF)}\\
 \\
@@ -56,7 +59,15 @@ None of the attributes in Vehicle are set-valued $\therefore$ Vehicle is in 1NF.
 
 \underline{Step \#3 (2NF)}\\
 \\
-Given the FDs: \{VIN\} $\longrightarrow$ \{Make, Model, LicenseNumber\}, \{LicenseNumber, Make, Model\} $\longrightarrow$ \{VIN\}\\
+The only FD that could cause the relation to not be in 2NF is: \{LicenseNumber, Make, Model\} $\longrightarrow$ \{VIN\}, it is in the form X $\longrightarrow$ Y and X is composite. However Y is a prime attribute, so we can ignore this FD as well. $\therefore$ Vehicle is in 2NF.\\
+\newpage
+
+\underline{Step \#3 (3NF)}\\
+\\
+With the FD: \{LicenseNumber, Make, Model\} $\longrightarrow$ \{VIN\}, \{VIN\} is a prime attribute, condition (b) is satisfied.\\
+
+For all the other FDs condition (a) is satisfied. $\therefore$ Vehicle is in 3NF.
+
 
 
 \end{document}
