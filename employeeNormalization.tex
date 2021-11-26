@@ -1,0 +1,76 @@
+\documentclass[12pt]{article}   % others are available, like book
+
+\usepackage{amssymb}            % adds more math symbols to LaTeX's basic set
+\usepackage{graphicx}           % for importing/adjusting images
+\usepackage{pifont}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{blkarray, bigstrut}
+
+\newcommand{\xmark}{\ding{55}}
+\newcommand\floor[1]{\lfloor#1\rfloor}
+\newcommand\ceil[1]{\lceil#1\rceil}
+
+\setlength{\topmargin}{-0.50in}     % in == inches (others:  cm, mm, pt, ...)
+\setlength{\textheight}{9.25in}     % what's left-over is the bottom margin
+\setlength{\textwidth}{6.625in}
+\setlength{\oddsidemargin}{0.0in}   % right-side pages in a magazine
+\setlength{\evensidemargin}{0.0in}  % left-side
+
+\setlength{\parindent}{0.0cm}	    % don't indent first lines of paragraphs
+\setlength{\parskip}{0.4cm}   
+
+\title{vehicle3NF}
+
+
+\begin{document}
+
+\underline{Steps to get to 3NF}
+\begin{enumerate}
+    \item Create initial relational design
+    \item Identify the FDs
+    \item Construct decomposed schema for which:
+          \begin{itemize}
+              \item Natural joins do not add spurious tuples
+              \item All relations are in at least 3NF
+              \item All FDs are retained or can be reconstructed
+          \end{itemize}
+\end{enumerate}
+
+\underline{Step \#1 (Create initial relational design)}\\
+\\
+Employee (EmployeeID (\textbf{PK}), deptID(\textbf{FK}), fName, LName, address, salary, jobTitle)\\
+
+\underline{Step \#2 (Identify the FDs)}\\
+\\
+\{EmployeeID\} $\longrightarrow$ \{deptID, fName, LName, address, salary, jobTitle\}\\
+\{EmployeeID\} $\longrightarrow$ \{deptID\}\\
+\{EmployeeID\} $\longrightarrow$ \{fName\}\\
+\{EmployeeID\} $\longrightarrow$ \{LName\}\\
+\{EmployeeID\} $\longrightarrow$ \{address\}\\
+\{EmployeeID\} $\longrightarrow$ \{salary\}\\
+\{EmployeeID\} $\longrightarrow$ \{jobTitle\}\\
+
+I'm going to ignore:\\
+\{EmployeeID, deptID\} $\longrightarrow$ \{fName, LName, address, salary, jobTitle\}\\
+and all it's decompositions, because it's just a bunch of partial dependencies.\\
+
+I think these are the only FDs, because what if George Foreman and his sons all lived in the same house, worked in the same department and made the same amount of money? Any other FDs would be invalid. 
+
+
+\underline{Step \#3 (1NF)}\\
+\\
+None of the attributes in Employee are set-valued $\therefore$ Employee is in 1NF.\\
+
+\underline{Step \#3 (2NF)}\\
+\\
+Employee is in 2NF, because every non-prime attribute of the relation is FFD upon a CK, in this case a PK (EmployeeID).
+
+\underline{Step \#3 (3NF)}\\
+\\
+All of the FDs in the relation satisfy condition (a) of the definition of 3NF, $\therefore$ Employee is in 3NF.
+
+
+
+\end{document}
+
