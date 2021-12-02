@@ -34,7 +34,6 @@ public class dbConnection {
 		this.pass = pass;
 		this.db_conn = null;
 		this.stmt = null;
-		loadOracleJDBCDriver();
 	}
 
 	/**
