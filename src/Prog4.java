@@ -73,7 +73,7 @@ public class Prog4 {
         System.out.println("(d): Our own created query\n");
         System.out.println("(e): Display this message again.\n");
         System.out.println("(f): Exit application.\n");
-        System.out.println("(change): Update a row in a table/Delete a row from a table/Add a row to a table.\n");
+        System.out.println("(g): Update a row in a table/Delete a row from a table/Add a row to a table.\n");
     }
 
     /*
@@ -117,8 +117,26 @@ public class Prog4 {
                 break;
             case "F":
                 break;
-            case "CHANGE":
+            case "G":
                 changeTable();
+                break;
+            case "APPOINTMENTTRANSACTION ADD":
+                apptMan.addAppt();
+                break;
+            case "APPOINTMENTTRANSACTION DELETE":
+                apptMan.deleteAppt();
+                break;
+            case "APPOINTMENTTRANSACTION UPDATE":
+                apptMan.updateAppt();
+                break;
+            case "DEPARTMENT ADD":
+                deptMan.addDept();
+                break;
+            case "DEPARTMENT DELETE":
+                deptMan.deleteDept();
+                break;
+            case "DEPARTMENT UPDATE":
+                deptMan.updateDept();
                 break;
             default:
                 System.out.println("Please provide a valid input.");
@@ -135,7 +153,21 @@ public class Prog4 {
     Return: none
     */
     public static void changeTable() {
+        //TODO: need to add functionality for more tables
+        System.out.println("What table would you like to change? The options are: " + 
+        "AppointmentTransaction, Department, ...\n");
 
+        System.out.print("Table to change: ");
+        String changeTable = input.nextLine().toUpperCase().replaceAll("\\s", "");
+        System.out.println();
+
+        System.out.println("Do you want to add, delete, or update?\n");
+
+        System.out.print("Action to perform: ");
+        String action = input.nextLine().toUpperCase().replaceAll("\\s", "");
+        System.out.println();
+        
+        parseInput(changeTable + " " + action);        
     }
 }
 

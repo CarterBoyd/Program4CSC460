@@ -37,6 +37,7 @@ public class DeptManipulation {
     Return: none
     */
     public static void deleteDept() {
+        System.out.println("--------------- Delete Department ---------------\n");
         System.out.println("DepartmentID: ");
         String deptID = input.nextLine();
         System.out.println();
@@ -54,6 +55,8 @@ public class DeptManipulation {
     Return: none
     */
     public static void addDept() {
+        System.out.println("--------------- Add Department ---------------\n");
+
         System.out.println("DeptID: ");
         String deptID = input.nextLine();
         System.out.println();
@@ -95,6 +98,8 @@ public class DeptManipulation {
     Return: none
     */
     public static void updateDept() {
+        System.out.println("--------------- Update Department ---------------\n");
+
         System.out.println("Please give a Department ID of the " + 
         "department you would like to change");
         System.out.print("DepartmentID: ");

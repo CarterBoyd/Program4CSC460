@@ -37,6 +37,8 @@ public class ApptManipulation {
     Return: none
     */
     public static void deleteAppt() {
+        System.out.println("--------------- Delete Appointment ---------------\n");
+
         System.out.println("CustomerID: ");
         String cusID = input.nextLine();
         System.out.println();
@@ -59,6 +61,8 @@ public class ApptManipulation {
     Return: none
     */
     public static void addAppt() {
+        System.out.println("--------------- Add Appointment ---------------\n");
+
         System.out.println("DeptID: ");
         String deptID = input.nextLine();
         System.out.println();
@@ -111,12 +115,14 @@ public class ApptManipulation {
     Return: none
     */
     public static void updateAppt() {
+        System.out.println("--------------- Update Appointment ---------------\n");
+
         System.out.println("Please give a Customer ID and a Start Time of the " + 
         "appointment you would like to change");
         System.out.print("CustomerID: ");
         String custID = input.nextLine();
         System.out.println();
-        System.out.println("StartTime: ");
+        System.out.print("StartTime: ");
         String st = input.nextLine();
         System.out.println();
 
