@@ -40,11 +40,41 @@ public class Prog4 {
         //Load the Oracle JDBC Drive
         dbConn.loadOracleJDBCDriver();
         // Establish a connection to the oracle database
+        // TODO: should dbConn return an error code, if it was unable to connect?
         dbConn.connect();
 
         // create objects to be used for manipulationg tables
         apptMan = new ApptManipulation(input, dbConn);
         deptMan = new DeptManipulation(input, dbConn);
+
+        displayMenu();        
+    }
+
+    /*
+    This method displays the different options to the users
+    and take their input choice
+
+    Params: none
+    Return: none
+    */
+    public static void displayMenu() {
+        System.out.println();
+        System.out.println("Below are the different query options. Enter a, b, c, or d.\n");
+
+        System.out.println("Or enter e to display these messages again. Or enter CHANGE " + 
+                           "to add/delete/update a relation.\n");
+ 
+        System.out.println("-------------------- Query Options --------------------");
+        System.out.println("(a)");
+        System.out.println("(b)");
+        System.out.println("(c)");
+        System.out.println("(d)");
+
+        System.out.print("Option: ");
+        String usrOpt = input.nextLine();
+        System.out.println();
+        System.out.println(usrOpt);
+
     }
 }
 
