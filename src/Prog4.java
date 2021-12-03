@@ -47,7 +47,8 @@ public class Prog4 {
         apptMan = new ApptManipulation(input, dbConn);
         deptMan = new DeptManipulation(input, dbConn);
 
-        displayMenu();        
+        displayMenu();     
+        getInput();
     }
 
     /*
@@ -59,21 +60,81 @@ public class Prog4 {
     */
     public static void displayMenu() {
         System.out.println();
-        System.out.println("Below are the different query options. Enter a, b, c, or d.\n");
-
-        System.out.println("Or enter e to display these messages again. Or enter CHANGE " + 
-                           "to add/delete/update a relation.\n");
+        System.out.println("Below are the different query options. Enter \"a\", \"b\", \"c\", \"d\", \"e\", \"f\", or \"change\"." +
+                           "(Enter option without quotation marks.)\n");
  
-        System.out.println("-------------------- Query Options --------------------");
-        System.out.println("(a)");
-        System.out.println("(b)");
-        System.out.println("(c)");
-        System.out.println("(d)");
+        System.out.println("--------------------------------------------- Query Options ---------------------------------------------");
+        System.out.println("(a): What is the customer's information whose IDs will expire on a " + 
+        "given date? (Provide a date in the format of MM/DD/YYYY)\n");
+        System.out.println("(b): How many appointments were there last month and how many of " +
+        "were successful? (Organized by type of appointment)\n");
+        System.out.println("(c): How much money did each department collect in fees? " + 
+        "(Provide a date in the format of MM/YYYY)\n");
+        System.out.println("(d): Our own created query\n");
+        System.out.println("(e): Display this message again.\n");
+        System.out.println("(f): Exit application.\n");
+        System.out.println("(change): Update a row in a table/Delete a row from a table/Add a row to a table.\n");
+    }
 
-        System.out.print("Option: ");
-        String usrOpt = input.nextLine();
-        System.out.println();
-        System.out.println(usrOpt);
+    /*
+    This method loops to get user input until a user is ready to exit the
+    application
+
+    Params: none
+    Return: none
+    */
+    public static void getInput() {
+        String usrIn = "";
+        while (!usrIn.equals("F")) {
+            System.out.print("Option: ");
+            usrIn = input.nextLine().toUpperCase().replaceAll("\\s", "");
+            System.out.println();
+            System.out.println(usrIn);
+            parseInput(usrIn);
+        }
+        System.out.println("Goodbye.");
+    }
+
+    /*
+    This method determines what action to take
+    depending on the user's input
+
+    Params: usrIn - the user's input option
+    Return: none
+    */
+    public static void parseInput(String usrIn) {
+        switch(usrIn) {
+            case "A":
+                break;
+            case "B":
+                break;
+            case "C":
+                break;
+            case "D":
+                break;
+            case "E":
+                displayMenu();
+                break;
+            case "F":
+                break;
+            case "CHANGE":
+                changeTable();
+                break;
+            default:
+                System.out.println("Please provide a valid input.");
+                break;
+        }
+    }
+
+    /*
+    This method gets the user's input so
+    it can be used to determine which
+    table needs to change and what the operation is.
+
+    Params: none
+    Return: none
+    */
+    public static void changeTable() {
 
     }
 }
