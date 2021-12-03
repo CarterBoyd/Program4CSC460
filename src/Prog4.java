@@ -1,6 +1,22 @@
 import java.util.Scanner;
 import java.io.*;
 
+
+/*
+Authors: Raymond Rea, ...
+Netids:  raymondprea
+Course: CSc 460
+Instructor: Dr. McCann, Justin Do, Sourav Mangla
+
+Purpose: This file provides the basic user interface of the application. The user is given a 
+series of options where they can select a query, or select to make manipulations to a relation in the 
+database. 
+
+Opperational requirements: A valid Oracle username and password. The JDBC driver needs to be in your classpath
+export CLASSPATH=/usr/lib/oracle/19.8/client64/lib/ojdbc8.jar:${CLASSPATH}.
+
+Known issues: As of 12/03/21 @ 1624, no known bugs
+*/
 public class Prog4 {
 
     // ORACLEDB LOGIN DETAILS
@@ -49,6 +65,7 @@ public class Prog4 {
 
         displayMenu();     
         getInput();
+        dbConn.close();
     }
 
     /*
