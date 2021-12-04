@@ -9,12 +9,13 @@ public class EmployeeTuple {
 	private Scanner user_in;
 	
 	private String deleteEmployeeSQL = "DELETE FROM katur.Employee WHERE EmployeeID=<#ID>";
-	private String addEmployeeSQL = "INSERT INTO katur.Employee (EmployeeID, deptID, FName, LName, address, salary) "
-									+ "values(seq_employee.nextval, <deptID>, '<fName>', '<lName>', '<address>', '<jobTitle>', <salary>)";
+	private String addEmployeeSQL = "INSERT INTO KATUR.Employee (employeeID, deptid, fname, lname, address, salary, jobtitle, sex) "
+									+ "VALUES (KATUR.SEQ_EMPLOYEE.nextval, <deptID>, '<fName>', '<lName>', '<address>', <salary>, '<jobTitle>', '<sex>')";
 	private String searchForEmployeeQuery = "SELECT * FROM katur.Employee WHERE EmployeeID=<#ID>";
+
 	private String checkIfDeptExistsQuery = "SELECT * FROM katur.Department WHERE DeptID=<#ID>";
-	private String updateEmployeeQuery = "UPDATE katur.Employee " +
-                                   			"SET <attr> = '<newval>' WHERE EmployeeID = <#ID>";
+
+	private String updateEmployeeQuery = "UPDATE KATUR.Employee SET KATUR.Employee.<attr>='<newval>' where KATUR.Employee.EMPLOYEEID=<#ID>";
 
 	public EmployeeTuple(Scanner userIn, dbConnection db_conn) {
 		this.conn = db_conn;
@@ -47,14 +48,15 @@ public class EmployeeTuple {
 		
 		System.out.print("Salary (Only numbers allowed in input): ");
 		String salary = grabAndValidateIntegerInput();
+
+		System.out.print("Sex (M, F, or NULL): ");
+		String sex = grabAndValidateSexInput();
 		
 		String query = addEmployeeSQL.replace("<deptID>", deptID).replace("<fName>", fName).replace("<lName>", lName).replace("<address>", address);
-		query = query.replace("<jobTitle>", jobTitle).replace("<salary>", salary);
+		query = query.replace("<jobTitle>", jobTitle).replace("<salary>", salary).replace("<sex>", sex);
 		
-		System.out.println(query);
-
-		//int rowsEffected = this.conn.executeUpdate(query);
-		System.out.println("Employee added!");
+		int rowsEffected = this.conn.executeUpdate(query);
+		System.out.println(rowsEffected + " Employee added!");
 	}
 
 	
@@ -112,14 +114,14 @@ public class EmployeeTuple {
 		String query = "";
 		
 		if (!(attr.equals("deptid") || attr.equals("salary")))
-			query = updateEmployeeQuery.replace("<newVal>", value);  
-		
+			query = updateEmployeeQuery.replace("<newval>", value);  
 		else
-			query = updateEmployeeQuery.replace("'<newVal>'", value);
+			query = updateEmployeeQuery.replace("'<newval>'", value);
 
 		query = query.replace("<#ID>", employeeID);
-		query = query.replace("<attr>", attr);
-
+		query = query.replace("<attr>", attr.toUpperCase());
+		System.out.println(query);
+	
 		this.conn.executeUpdate(updateEmployeeQuery);
 
 	}

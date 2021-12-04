@@ -16,10 +16,10 @@ public class DeptManipulation {
                                 "DeptID = <@>"; 
 
     private static String add = "INSERT INTO KATUR.Department " +
-                                "VALUES(<!>, <@>, <#>, <$>, <%>)";
+                                "VALUES(KATUR.SEQ_DEPARTMENT.nextval, '<@>', '<#>', '<$>', <%>)";
 
     private static String update = "UPDATE KATUR.Department " +
-                                   "SET <@> = <#> WHERE DeptID = <&>";
+                                   "SET <@> = '<#>' WHERE DeptID = <&>";
 
     private static Scanner input = null;
     private static dbConnection dbConn = null;
@@ -57,34 +57,36 @@ public class DeptManipulation {
     public static void addDept() {
         System.out.println("--------------- Add Department ---------------\n");
 
+	/*
         System.out.println("DeptID: ");
         String deptID = input.nextLine();
         System.out.println();
-
+	*/
+	
         System.out.println("DepartmentName: ");
-        String deptName = input.nextLine();
+        String deptName = input.nextLine().toUpperCase();
         System.out.println();
 
         System.out.println("DepartmentAddress: ");
-        String deptAddr = input.nextLine();
+        String deptAddr = input.nextLine().toUpperCase();
         System.out.println();
         
         System.out.println("ServiceType: ");
-        String servType = input.nextLine();
+        String servType = input.nextLine().toUpperCase();
         System.out.println();
 
-        System.out.println("Acitive: ");
+        System.out.println("Active (0-False, 1-True): ");
         String active = input.nextLine();
         System.out.println();
 
         // replacing values in add statement
-        String addStmt = add.replace("<!>", deptID);
-        addStmt = addStmt.replace("<@>", deptName);
+        // String addStmt = add.replace("<!>", deptID);
+        String addStmt = add.replace("<@>", deptName);
         addStmt = addStmt.replace("<#>", deptAddr);
         addStmt = addStmt.replace("<$>", servType);
         addStmt = addStmt.replace("<%>", active);
-
-        dbConn.executeQuery(addStmt);
+        
+		dbConn.executeQuery(addStmt);
     }
 
     /*
@@ -102,23 +104,32 @@ public class DeptManipulation {
 
         System.out.println("Please give a Department ID of the " + 
         "department you would like to change");
-        System.out.print("DepartmentID: ");
+        
+		System.out.print("DepartmentID: ");
         String deptID = input.nextLine();
-        System.out.println();
+		System.out.println();
 
         System.out.print("Which attribute would you like to change?");
-        System.out.println(" (DeptID, DeptName, DeptAddress, ServiceType, Active (0 = not active, 1 = active))");
+        System.out.println(" (DeptName, DeptAddress, ServiceType, Active (0 = not active, 1 = active))");
         System.out.print("Attribute to change: ");
         String changeAttr = input.nextLine();
 
         System.out.println("New Value: ");
-        String newVal = input.nextLine();
+        String newVal = input.nextLine().toUpperCase();
 
         String updateStmt = update.replace("<@>", changeAttr);
-        updateStmt = updateStmt.replace("<#>", newVal);
-        updateStmt = updateStmt.replace("<&>", deptID);
 
-        dbConn.executeQuery(updateStmt);
-    }
+		if (changeAttr.toLowerCase().equals("active")) 
+			updateStmt = updateStmt.replace("'<#>'", newVal);
+		else
+        	updateStmt = updateStmt.replace("<#>", newVal);
+        
+		updateStmt = updateStmt.replace("<&>", deptID);
+
+        if (dbConn.executeQuery(updateStmt) == null) {
+			System.out.println("\n Query didn't work, make sure you entered a correct attribute name.");
+		}
+   }
+
 }
 
