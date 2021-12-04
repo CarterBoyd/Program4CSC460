@@ -12,13 +12,13 @@ values of a tuple in the database.
 */
 public class ApptManipulation {
 
-    private static String del = "DELETE FROM katur.ApptTransaction WHERE " +
+    private static String del = "DELETE FROM KATUR.ApptXact WHERE " +
                                 "CustomerID = <@> AND StartTime = <#>"; 
 
-    private static String add = "INSERT INTO katur.AppointmentTransaction " + 
+    private static String add = "INSERT INTO KATUR.ApptXact " +
                                 "VALUES(<!>, <@>, <#>, <$>, <%>, <^>, <&>, <*>)";
 
-    private static String update = "UPDATE katur.AppointmentTransaction " +
+    private static String update = "UPDATE KATUR.ApptXact " +
                                    "SET <@> = <#> WHERE CustomerId = <$> AND StartTime = <&>";
 
     private static Scanner input = null;
