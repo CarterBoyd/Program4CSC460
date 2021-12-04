@@ -34,6 +34,9 @@ public class Prog4 {
     // user input
     private static Scanner input = null;
 
+    // contains queries and methods to execute queries
+    private static Queries queries = null;
+
     /*
     main establishes a connection to the database using a dbConnection object
     and creates objects that will be used to manipulate the different tables
@@ -59,6 +62,8 @@ public class Prog4 {
         // Establish a connection to the oracle database
         // TODO: should dbConn return an error code, if it was unable to connect?
         dbConn.connect();
+
+        queries = new Queries(dbConn);
 
         // create objects to be used for manipulationg tables
         apptMan = new ApptManipulation(input, dbConn);
@@ -124,12 +129,22 @@ public class Prog4 {
     public static void parseInput(String usrIn) {
         switch(usrIn) {
             case "A":
+                System.out.print("Date (MM/DD/YYYY): ");
+                String dateA = input.nextLine();
+                queries.executeQA(dateA);
                 break;
             case "B":
+                queries.executeQB();
                 break;
             case "C":
+                System.out.print("Date (MM/YYYY): ");
+                String dateB = input.nextLine();
+                queries.executeQC(dateB);
                 break;
             case "D":
+                System.out.print("Input: ");
+                String usrInD = input.nextLine();
+                queries.executeQD(usrInD);
                 break;
             case "E":
                 displayMenu();
