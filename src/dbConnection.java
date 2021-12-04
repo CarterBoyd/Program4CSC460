@@ -100,4 +100,18 @@ public class dbConnection {
 		}
 		return result;
 	}
+
+	public int executeUpdate(String query) {
+		int rowsEffected = 0;
+		try {
+			rowsEffected = this.stmt.executeUpdate(query);
+		} catch(SQLException e) {
+			System.err.println("Unable to execute statement query");
+			System.err.println("\tMessage:   " + e.getMessage());
+        	System.err.println("\tSQLState:  " + e.getSQLState());
+        	System.err.println("\tErrorCode: " + e.getErrorCode());
+			System.exit(-1);
+		}
+		return rowsEffected;
+	}
 }
