@@ -86,7 +86,7 @@ public class dbConnection {
 	*   Param: query A String that represents the query to be run
 	*  Return: resultSet A resultSet containing the results from the above query.
 	*/
-	public ResultSet executeQuery(String query, String input) { 
+	public ResultSet executeQuery(String query) { 
                 //TODO need to check if input is empty, as it can be in query b
 
 		ResultSet result = null;
