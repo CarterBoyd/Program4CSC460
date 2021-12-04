@@ -83,7 +83,14 @@ public class Queries {
                 date[1].length() == 4 && dateValidator(date)) {
                 
                 System.out.println("this is where query c would be executed with date " + dateStr);
-                //dbConn.executeQuery(qC, dateStr);
+				final String queryFormat ="""
+						select * from DEPARTMENT join APPTXACT A2 on DEPARTMENT.DEPTID = A2.DEPTID
+						    where extract(month from ENDTIME) = <month>""";
+				String query = queryFormat.replace("<month>", dateStr);
+                dbConn.executeQuery(query);
+				// will since we never placed a pricing for this the results from this query will have to be added up
+				int sum = 0;
+				// loop of results goes here
             } else {
                 System.out.println("Please provide a date in the correct format");
                 return;
