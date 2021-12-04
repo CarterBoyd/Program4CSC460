@@ -3,7 +3,7 @@ import java.io.*;
 
 
 /*
-Authors: Raymond Rea, ...
+Authors: Raymond Rea, Carter Boyd
 Netids:  raymondprea
 Course: CSc 460
 Instructor: Dr. McCann, Justin Do, Sourav Mangla
