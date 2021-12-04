@@ -35,7 +35,13 @@ public class Queries {
                 dateValidator(date)) {
                 
                 System.out.println("this is where query a would be executed with date " + dateStr);
-                //dbConn.executeQuery(qA, dateStr);
+				final String queryFormat = """
+								select KATUR.CUSTOMER.CUSTOMERID, KATUR.CUSTOMER.FNAME, KATUR.CUSTOMER.LNAME,
+									KATUR.DOCUMENT.ISSUEDATE, KATUR.DOCUMENT.EXPIRYDATE from DEPARTMENT
+									join DOCUMENT D on DEPARTMENT.DEPTID = D.DEPTID
+									where <date> = expirydate""";
+				String query = queryFormat.replace("<date>", dateStr);
+				dbConn.executeQuery(query);
             } else {
                 System.out.println("Please provide a date in the correct format");
                 return;
