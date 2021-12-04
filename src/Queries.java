@@ -34,7 +34,8 @@ public class Queries {
                 date[1].length() == 2 && date[2].length() == 4 && 
                 dateValidator(date)) {
                 
-                dbConn.executeQuery(qA, dateStr);
+                System.out.println("this is where query a would be executed with date " + dateStr);
+                //dbConn.executeQuery(qA, dateStr);
             } else {
                 System.out.println("Please provide a date in the correct format");
                 return;
@@ -53,7 +54,8 @@ public class Queries {
     Return: none
     */
     public static void executeQB() {
-        dbConn.executeQuery(qA, "");
+        System.out.println("this is where query b would be executed");
+        //dbConn.executeQuery(qA, "");
     }
 
     /*
@@ -74,7 +76,8 @@ public class Queries {
             if (date.length == 2      && date[0].length() == 2 && 
                 date[1].length() == 4 && dateValidator(date)) {
                 
-                dbConn.executeQuery(qC, dateStr);
+                System.out.println("this is where query c would be executed with date " + dateStr);
+                //dbConn.executeQuery(qC, dateStr);
             } else {
                 System.out.println("Please provide a date in the correct format");
                 return;
@@ -106,13 +109,16 @@ public class Queries {
     */
     private static boolean dateValidator(String[] date) {
 
+        //System.out.println("[" + date[0] + ", " + date[1] + ", " + date[2] + "]"); 
         // iterating through the different elements of the date
         for (int i = 0; i < date.length; i++) {
             // if any given element in the date is not numeric, 
             // return false
             try {
-                Integer.parseInt(date[i]);
+                int dateElement = Integer.parseInt(date[i]);
+                if (dateElement < 0) {return false;}
             } catch (NumberFormatException e) {
+                //System.out.println("date failed");
                 return false;
             }
         }
