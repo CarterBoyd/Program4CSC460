@@ -13,9 +13,8 @@ public class EmployeeTuple {
 									+ "VALUES (KATUR.SEQ_EMPLOYEE.nextval, <deptID>, '<fName>', '<lName>', '<address>', <salary>, '<jobTitle>', '<sex>')";
 	private String searchForEmployeeQuery = "SELECT * FROM katur.Employee WHERE EmployeeID=<#ID>";
 
+	private String updateEmployeeQuery = "UPDATE KATUR.Employee SET <attr>='<newval>' WHERE employeeid=<#ID>";
 	private String checkIfDeptExistsQuery = "SELECT * FROM katur.Department WHERE DeptID=<#ID>";
-
-	private String updateEmployeeQuery = "UPDATE KATUR.Employee SET KATUR.Employee.<attr>='<newval>' where KATUR.Employee.EMPLOYEEID=<#ID>";
 
 	public EmployeeTuple(Scanner userIn, dbConnection db_conn) {
 		this.conn = db_conn;
@@ -74,6 +73,8 @@ public class EmployeeTuple {
 	}	
 
 	public void updateEmployee() {
+		String queryToUse = "UPDATE KATUR.Employee SET lname='asdfwer' WHERE employeeid=6";
+		
 		// Prompt user for Employee PK
 		System.out.print("Please enter the ID of the employee whose information you would like to update: ");
 		String employeeID = grabAndValidateIntegerInput();
@@ -86,7 +87,8 @@ public class EmployeeTuple {
 			if (!employee.next()) {
 				System.out.println("No Employee exists with that ID!");
 				return;
-			}
+			} else
+				System.out.println("Employee exists");
 		} catch (SQLException e) {
 			System.out.println("L Bruh: Line 92 EmployeeTuple");
 			return;
@@ -103,27 +105,20 @@ public class EmployeeTuple {
 			attr = this.user_in.nextLine().toLowerCase();
 		}
 
-		// Grab the new value to update with. This could user some error checking.
-		// Like if we ask for salary, we then want a string containing only numbers.
-		// Same goes for department ID
-			// In that case, we would need to check that deptID exists.
-			// pain 
 		System.out.print("Please enter the new value: ");
 		String value = this.user_in.nextLine();
 
 		String query = "";
-		
+		query = updateEmployeeQuery.replace("<attr>", attr);
+
 		if (!(attr.equals("deptid") || attr.equals("salary")))
-			query = updateEmployeeQuery.replace("<newval>", value);  
+			query = query.replace("<newval>", value);
 		else
-			query = updateEmployeeQuery.replace("'<newval>'", value);
+			query = query.replace("'<newval>'", value);
 
 		query = query.replace("<#ID>", employeeID);
-		query = query.replace("<attr>", attr.toUpperCase());
-		System.out.println(query);
-	
-		this.conn.executeUpdate(updateEmployeeQuery);
 
+		this.conn.executeQuery(query);
 	}
 
 	private boolean checkIfDeptIdExists(String id) {
