@@ -29,8 +29,8 @@ public class Prog4 {
     private static dbConnection dbConn = null;
     private static ApptManipulation apptMan = null;
     private static DeptManipulation deptMan = null;
-	private static EmployeeTuple emplMan = null;	
-
+    private static EmployeeTuple emplMan = null;	
+	
     // user input
     private static Scanner input = null;
 
@@ -63,7 +63,7 @@ public class Prog4 {
         // create objects to be used for manipulationg tables
         apptMan = new ApptManipulation(input, dbConn);
         deptMan = new DeptManipulation(input, dbConn);
-		emplMan = new EmployeeTuple(input, dbConn);
+	emplMan = new EmployeeTuple(input, dbConn);
 
         displayMenu();     
         getInput();
@@ -157,15 +157,15 @@ public class Prog4 {
             case "DEPARTMENT UPDATE":
                 deptMan.updateDept();
                 break;
-			case "EMPLOYEE ADD":
-				emplMan.addEmployee();
-				break;
-			case "EMPLOYEE DELETE":
-				emplMan.deleteEmployee();
-				break;
-			case "EMPLOYEE UPDATE":
-				emplMan.updateEmployee();
-				break;
+	    case "EMPLOYEE ADD":
+		emplMan.addEmployee();
+		break;
+	    case "EMPLOYEE DELETE":
+		emplMan.deleteEmployee();
+		break;
+	    case "EMPLOYEE UPDATE":
+		emplMan.updateEmployee();
+		break;
             default:
                 System.out.println("Please provide a valid input.");
                 break;
