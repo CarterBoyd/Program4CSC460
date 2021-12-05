@@ -30,7 +30,8 @@ public class Prog4 {
     private static ApptManipulation apptMan = null;
     private static DeptManipulation deptMan = null;
     private static EmployeeTuple emplMan = null;	
-	
+	private static CustomerManipulation custMan = null;	
+
     // user input
     private static Scanner input = null;
 
@@ -69,8 +70,9 @@ public class Prog4 {
         apptMan = new ApptManipulation(input, dbConn);
         deptMan = new DeptManipulation(input, dbConn);
 	emplMan = new EmployeeTuple(input, dbConn);
-
-        displayMenu();     
+	custMan = new CustomerManipulation(input, dbConn);
+        
+		displayMenu();     
         getInput();
         dbConn.close();
     }
@@ -181,6 +183,15 @@ public class Prog4 {
 	    case "EMPLOYEE UPDATE":
 		emplMan.updateEmployee();
 		break;
+		case "CUSTOMER ADD":
+		custMan.addCustomer();
+		break;
+		case "CUSTOMER DELETE":
+		custMan.deleteCustomer();
+		break;
+		case "CUSTOMER UPDATE":
+		custMan.updateCustomer();
+		break;
             default:
                 System.out.println("Please provide a valid input.");
                 break;
@@ -198,7 +209,7 @@ public class Prog4 {
     public static void changeTable() {
         //TODO: need to add functionality for more tables
         System.out.println("What table would you like to change? The options are: " + 
-        "AppointmentTransaction, Department, Employee ...\n");
+        "AppointmentTransaction, Department, Employee, Customer ...\n");
 
         System.out.print("Table to change: ");
         String changeTable = input.nextLine().toUpperCase().replaceAll("\\s", "");

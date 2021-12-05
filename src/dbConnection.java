@@ -87,8 +87,6 @@ public class dbConnection {
 	*  Return: resultSet A resultSet containing the results from the above query.
 	*/
 	public ResultSet executeQuery(String query) { 
-                //TODO need to check if input is empty, as it can be in query b
-
 		ResultSet result = null;
 		try {
 			result = this.stmt.executeQuery(query);

@@ -66,10 +66,11 @@ public class EmployeeTuple {
 		String employeeID = grabAndValidateIntegerInput();
 
 		int rowsEffected = this.conn.executeUpdate(deleteEmployeeSQL.replace("<#ID>", employeeID));
+		
 		if (rowsEffected == 0)
 			System.out.println("0 Employees deleted, maybe the EmployeeID doesn't exist?");
-		
-		System.out.println(rowsEffected + " Employee deleted");
+		else	
+			System.out.println(rowsEffected + " Employee deleted");
 	}	
 
 	public void updateEmployee() {
