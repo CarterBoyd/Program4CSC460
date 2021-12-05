@@ -16,7 +16,7 @@ public class DeptManipulation {
                                 "DeptID = <@>"; 
 
     private static String add = "INSERT INTO KATUR.Department " +
-                                "VALUES(KATUR.SEQ_DEPARTMENT.nextval, '<@>', '<#>', '<$>', <%>)";
+                                "VALUES(KATUR.SEQ_DEPARTMENT.nextval, '<@>', '<#>', <%>)";
 
     private static String update = "UPDATE KATUR.Department " +
                                    "SET <@> = '<#>' WHERE DeptID = <&>";
@@ -71,10 +71,6 @@ public class DeptManipulation {
         String deptAddr = input.nextLine().toUpperCase();
         System.out.println();
         
-        System.out.println("ServiceType: ");
-        String servType = input.nextLine().toUpperCase();
-        System.out.println();
-
         System.out.println("Active (0-False, 1-True): ");
         String active = input.nextLine();
         System.out.println();
@@ -83,7 +79,6 @@ public class DeptManipulation {
         // String addStmt = add.replace("<!>", deptID);
         String addStmt = add.replace("<@>", deptName);
         addStmt = addStmt.replace("<#>", deptAddr);
-        addStmt = addStmt.replace("<$>", servType);
         addStmt = addStmt.replace("<%>", active);
         
 		dbConn.executeQuery(addStmt);
@@ -110,7 +105,7 @@ public class DeptManipulation {
 		System.out.println();
 
         System.out.print("Which attribute would you like to change?");
-        System.out.println(" (DeptName, DeptAddress, ServiceType, Active (0 = not active, 1 = active))");
+        System.out.println(" (DeptName, DeptAddress, Active (0 = not active, 1 = active))");
         System.out.print("Attribute to change: ");
         String changeAttr = input.nextLine();
 

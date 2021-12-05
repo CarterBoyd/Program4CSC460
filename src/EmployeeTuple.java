@@ -2,12 +2,28 @@ import java.io.*;
 import java.util.*;
 import java.sql.*;
 
+
+/**
+*	Class Name: EmployeeTuple
+*		Author: Logan C. Urfer
+*
+* Dependencies: java.io, java.util, java.sql
+*				
+*	   Purpose: This class is responsible for update, adding and deleting tuples from the
+*				employee table.
+*
+*  Constructor: Parameterized Constructor - userIn is used to grab user input from command line,
+*				and db_conn is used to communicate with the Oracle DB.
+*
+*/
 public class EmployeeTuple {
 
-	// katur.tableName for SQL
+	// Used for sending and receiving messages from Oracle DB.
 	private dbConnection conn;
+	// Used for grabbing input from command line
 	private Scanner user_in;
 	
+	// Define our sql querys
 	private String deleteEmployeeSQL = "DELETE FROM katur.Employee WHERE EmployeeID=<#ID>";
 	private String addEmployeeSQL = "INSERT INTO KATUR.Employee (employeeID, deptid, fname, lname, address, salary, jobtitle, sex) "
 									+ "VALUES (KATUR.SEQ_EMPLOYEE.nextval, <deptID>, '<fName>', '<lName>', '<address>', <salary>, '<jobTitle>', '<sex>')";
@@ -16,11 +32,22 @@ public class EmployeeTuple {
 	private String updateEmployeeQuery = "UPDATE KATUR.Employee SET <attr>='<newval>' WHERE employeeid=<#ID>";
 	private String checkIfDeptExistsQuery = "SELECT * FROM katur.Department WHERE DeptID=<#ID>";
 
+	/**
+	* 	 Name: EmployeeTuple
+	*  Params: userIn - Scanner object for grabbing user input
+	*			dbConn- dbConnection object for send and recieving messages from an oracle db.
+	* Purpose: Saves references to user input scanner and Oracle db connection object.
+	*/
 	public EmployeeTuple(Scanner userIn, dbConnection db_conn) {
 		this.conn = db_conn;
 		this.user_in = userIn;
 	}
 
+	/**
+	*	 Name: addEmployee
+	* Purpose: Adds a tuple to the employee table in the oracle DB. Prompts user for input then 
+	*			sends that info in an sql statement.
+	*/			
 	public void addEmployee() {
 		System.out.println("Please enter the following details:");
 		
@@ -58,8 +85,11 @@ public class EmployeeTuple {
 		System.out.println(rowsEffected + " Employee added!");
 	}
 
-	
-
+	/**
+	*	 Name: deleteEmployee
+	* Purpose: Deletes a tuple from the employee table by prompting user for id of employee.
+	*
+	*/
 	public void deleteEmployee() {
 		// prompt the user to enter in the ID of the employee they would like to delete	
 		System.out.print("Please enter the ID of the employee you are trying to delete: ");
@@ -73,10 +103,12 @@ public class EmployeeTuple {
 			System.out.println(rowsEffected + " Employee deleted");
 	}	
 
+	/**
+	*	 Name: updateEmployee
+	* Purpose: Updated an employee tuple in the employee table by prompting the user
+	*			to select the attribute they would like to change then the value to change to.
+	*/
 	public void updateEmployee() {
-		String queryToUse = "UPDATE KATUR.Employee SET lname='asdfwer' WHERE employeeid=6";
-		
-		// Prompt user for Employee PK
 		System.out.print("Please enter the ID of the employee whose information you would like to update: ");
 		String employeeID = grabAndValidateIntegerInput();
 		
@@ -122,6 +154,12 @@ public class EmployeeTuple {
 		this.conn.executeQuery(query);
 	}
 
+	/**
+	*	 Name: checkIfDeptIdExists
+	*  Params: id - String object that contains the employee id to check
+	* Purpose: Checks to see if an the passed employee id exists in the employee table.
+	*
+	*/
 	private boolean checkIfDeptIdExists(String id) {
 		String query = checkIfDeptExistsQuery.replace("<#ID>", id); 	
 		ResultSet dept = this.conn.executeQuery(query);
@@ -136,6 +174,11 @@ public class EmployeeTuple {
 		return false;
 	}
 
+	/**
+	*	 Name: grabAndValidateSexInput
+	* Purpose: Continually prompts the user for input until the information provided is of
+	*			correct format
+	*/
 	private String grabAndValidateSexInput() {
 		String sex = this.user_in.nextLine().toUpperCase();
 		
@@ -147,6 +190,11 @@ public class EmployeeTuple {
 		return sex;
 	}
 
+	/**
+	* 	 Name: grabAndValidateIntegerInput
+	* Purpose: Continually prompts the user for input until the information provided is of 
+	*			correct format
+	*/
 	private String grabAndValidateIntegerInput() {
 		String ret = this.user_in.nextLine();
 		
@@ -158,6 +206,11 @@ public class EmployeeTuple {
 
 	}
 
+	/**
+	* 	 Name: grabAndValidateInput
+	* Purpose: Continually prompts the user for input until the information provided is of 
+	*			correct format
+	*/
 	private String grabAndValidateInput() {
 		String ret = this.user_in.nextLine();
 		
