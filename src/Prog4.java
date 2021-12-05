@@ -174,24 +174,24 @@ public class Prog4 {
             case "DEPARTMENT UPDATE":
                 deptMan.updateDept();
                 break;
-	    case "EMPLOYEE ADD":
-		emplMan.addEmployee();
-		break;
-	    case "EMPLOYEE DELETE":
-		emplMan.deleteEmployee();
-		break;
-	    case "EMPLOYEE UPDATE":
-		emplMan.updateEmployee();
-		break;
-		case "CUSTOMER ADD":
-		custMan.addCustomer();
-		break;
-		case "CUSTOMER DELETE":
-		custMan.deleteCustomer();
-		break;
-		case "CUSTOMER UPDATE":
-		custMan.updateCustomer();
-		break;
+	    	case "EMPLOYEE ADD":
+				emplMan.addEmployee();
+				break;
+	    	case "EMPLOYEE DELETE":
+				emplMan.deleteEmployee();
+				break;
+	    	case "EMPLOYEE UPDATE":
+				emplMan.updateEmployee();
+				break;
+			case "CUSTOMER ADD":
+				custMan.addCustomer();
+				break;
+			case "CUSTOMER DELETE":
+				custMan.deleteCustomer();
+				break;
+			case "CUSTOMER UPDATE":
+				custMan.updateCustomer();
+				break;
             default:
                 System.out.println("Please provide a valid input.");
                 break;
