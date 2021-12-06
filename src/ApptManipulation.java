@@ -134,7 +134,7 @@ public class ApptManipulation {
 		addStmt = addStmt.replace("<*>", type);
 
 		System.out.println(addStmt);
-		if (!overLaps(st, et))
+		if (!overLaps(st, et, empID))
 			dbConn.executeQuery(addStmt);
 		if (successful.equals("1"))
 			createDocument(results, deptID, custID, type);
@@ -144,13 +144,17 @@ public class ApptManipulation {
 	 * Designed to check if the selected appointment overlaps
 	 * @param startTime the start time of the appointment
 	 * @param endTime the end time of the appointment
+	 * @param empID
 	 * @return true if there are overlaps, false if there are no overlaps
+	 *
+	 * @implNote this was created with minimal testing, this query will return results but someone verifies if this is how you will find overlaps
 	 */
-	private static boolean overLaps(String startTime, String endTime) {
+	private static boolean overLaps(String startTime, String endTime, String empID) {
 		String query = String.format("""
 				select * from APPTXACT
 				    where STARTTIME < TO_DATE('%s', 'YYYY MM DD')
-				    and ENDTIME > TO_DATE('%s', 'YYYY MM DD')""", endTime, startTime);
+				    and ENDTIME > TO_DATE('%s', 'YYYY MM DD')
+				    and EMPLOYEEID = %s""", endTime, startTime, empID); //overlapping should be focussed on employee schedule, so here's a checker
 		ResultSetMetaData results;
 		try {
 			results = dbConn.executeQuery(query).getMetaData();
