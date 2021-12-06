@@ -1,3 +1,9 @@
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.YearMonth;
+
 /*
 This class is used to store the four required queries as strings.
 This class uses a dbConnection object to execute the queries 
@@ -8,6 +14,7 @@ public class Queries {
     private static final String qB = "";
     private static final String qC = "";
     private static final String qD = "";
+    private static PreparedStatement ps = null;
 
     private static dbConnection dbConn = null;
 
@@ -59,9 +66,61 @@ public class Queries {
     Params: none
     Return: none
     */
-    public static void executeQB() {
+    public static void executeQB() throws SQLException {
         System.out.println("this is where query b would be executed");
-        //dbConn.executeQuery(qA, "");
+        String dept = "select * from katur.apptxact where type = ? and starttime >= ? and starttime <= ?;";
+        ps = dbConn.getConn().prepareStatement(dept, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ResultSet answer = null;
+        ps.setString(1,  "PERMIT");
+        ps.setDate(2, Date.valueOf(YearMonth.now().minusMonths(1).atDay(1).toString()));
+        ps.setDate(3, Date.valueOf(YearMonth.now().minusMonths(1).atEndOfMonth().toString()));
+        answer = ps.executeQuery();
+        int type = 0;
+        int succ = 0;
+        while (answer.next()) {
+            type++;
+            if (answer.getInt("successful") > 0) {
+                succ++;
+            }
+        }
+        System.out.println("Permits last month: " + type);
+        System.out.println("Successful permits: " + succ);
+        ps.setString(1,  "LICENSE");
+        type = 0;
+        succ = 0;
+        answer = ps.executeQuery();
+        while (answer.next()) {
+            type++;
+            if (answer.getInt("successful") > 0) {
+                succ++;
+            }
+        }
+        System.out.println("Licenses last month: " + type);
+        System.out.println("Successful licenses: " + succ);
+        ps.setString(1,  "VEHICLE REGISTRATION");
+        type = 0;
+        succ = 0;
+        answer = ps.executeQuery();
+        while (answer.next()) {
+            type++;
+            if (answer.getInt("successful") > 0) {
+                succ++;
+            }
+        }
+        System.out.println("Registrations last month: " + type);
+        System.out.println("Successful registrations: " + succ);
+        type = 0;
+        succ = 0;
+        ps.setString(1,  "STATE ID");
+        answer = ps.executeQuery();
+        while (answer.next()) {
+            type++;
+            if (answer.getInt("successful") > 0) {
+                succ++;
+            }
+        }
+        System.out.println("IDs last month: " + type);
+        System.out.println("Successful IDs: " + succ);
     }
 
     /*

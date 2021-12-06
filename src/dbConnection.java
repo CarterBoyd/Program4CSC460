@@ -147,4 +147,8 @@ public class dbConnection {
 		}
 		return rowsEffected;
 	}
+
+	public Connection getConn() {
+		return db_conn;
+	}
 }
