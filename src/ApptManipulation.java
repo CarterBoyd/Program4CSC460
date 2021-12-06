@@ -1,5 +1,7 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.io.*;
+import java.sql.*;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -39,7 +41,7 @@ public class ApptManipulation {
     //TODO: if appointment is successful, a new document needs to be added
     // with the customer id and the service type
 
-    //TODO: need to make sure that appointments don't overlap, 
+    //TODO: need to make sure that appointments don't overlap,
     // can check for this on insert
 
     //TODO: add endtime where endtime is 1 hr after starttime
@@ -99,8 +101,13 @@ public class ApptManipulation {
 		String st = results[0] + '-' + results[1] + '-' + results[2] + "- " + results[3] + ':' + results[4];
         System.out.println();
 
-        System.out.println("Cost: ");
-        String cost = input.nextLine();
+		int cost = 0;
+		switch (deptID) {
+			case "PERMIT" -> cost = 7;
+			case "LICENSE NUMBER" -> cost = 25;
+			case "STATE ID" -> cost = 100;
+			case "VEHICLE REGISTRATION" -> cost = 12;
+		}
         System.out.println();
 
         // successful codes: -1 = hasn't started, 0 = unsuccessful, 1 = successful
@@ -117,16 +124,14 @@ public class ApptManipulation {
 
 		String type = getType(deptID);
         // replacing values in add statement
-        String addStmt = add.replace("<!>", custID);
-        addStmt = addStmt.replace("<@>", st);
-        addStmt = addStmt.replace("<#>", empID);
-        addStmt = addStmt.replace("<$>", deptID);
-        addStmt = addStmt.replace("<%>", cost);
+        String addStmt = add.replace("<!>", deptID);
+        addStmt = addStmt.replace("<@>", empID);
+        addStmt = addStmt.replace("<#>", custID);
+        addStmt = addStmt.replace("<$>", st);
+        addStmt = addStmt.replace("<%>", String.valueOf(cost));
         addStmt = addStmt.replace("<^>", successful);
         addStmt = addStmt.replace("<&>", et);
-        addStmt = addStmt.replace("<*>", type);
-
-        System.out.println(addStmt);
+		addStmt = addStmt.replace("<*>", type);
 
         dbConn.executeQuery(addStmt);
 		if (successful.equals("1"))
@@ -216,22 +221,22 @@ public class ApptManipulation {
 
 	public static String[] getDateFromUser() {
 		String[] dateArr = new String[5];
-		
+
 		System.out.print("Year (YYYY): ");
 		String year = grabAndValidateNumericInput(4);
-		
+
 		System.out.print("Month (MM): ");
 		String month = grabAndValidateNumericInput(2);
 
 		System.out.print("Day (DD): ");
 		String day = grabAndValidateNumericInput(2);
-		
+
 		System.out.print("Hour (HH): ");
 		String hour = grabAndValidateNumericInput(2);
-		
+
 		System.out.print("Minute (MM): ");
 		String minute = grabAndValidateNumericInput(2);
-		
+
 		dateArr[0] = year;
 		dateArr[1] = month;
 		dateArr[2] = day;
@@ -255,7 +260,7 @@ public class ApptManipulation {
 		try {
 			return Integer.parseInt(input);
 		} catch (NumberFormatException e) {
-			return -1;		
+			return -1;
 		}
 	}
 

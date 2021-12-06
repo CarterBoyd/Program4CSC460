@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.sql.*;
 import java.io.*;
 
 
@@ -136,12 +137,20 @@ public class Prog4 {
                 queries.executeQA(dateA);
                 break;
             case "B":
-                queries.executeQB();
+                try {
+                    queries.executeQB();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "C":
                 System.out.print("Date (MM/YYYY): ");
                 String dateB = input.nextLine();
-                queries.executeQC(dateB);
+                try {
+                    queries.executeQC(dateB);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "D":
                 System.out.print("Input: ");
