@@ -25,6 +25,10 @@ public class ApptManipulation {
 	private static String overlapCheck = "SELECT COUNT(*) FROM KATUR.ApptXact a " +
 										 "WHERE a.EndTime = TO_DATE('<date>', 'YYYY/MM/DD HH24:MI')" +
 										 "AND a.CustomerID = <custid> AND ";
+	private static final int YEAR = 0;
+	private static final int MONTH = 1;
+	private static final int DAY = 2;
+	private static final int MIN = 3;
 
 	private static final String EMPLOYEE_SEARCH = """
 			Select count(*) from katur.apptxact where
@@ -96,7 +100,7 @@ public class ApptManipulation {
 
 		System.out.println("StartTime: ");
 		String[] results = getDateFromUser();
-		String st = results[0] + '-' + results[1] + '-' + results[2];
+		String st = results[YEAR] + '-' + results[MONTH] + '-' + results[DAY];
 		System.out.println();
 
 		String type = getType(deptID);
@@ -118,7 +122,7 @@ public class ApptManipulation {
 			successful = input.nextLine();
 		System.out.println("EndTime: ");
 		String[] endResult = getDateFromUser();
-		String et = endResult[0] + '-' + endResult[1] + '-' + endResult[2];
+		String et = endResult[YEAR] + '-' + endResult[MONTH] + '-' + endResult[DAY];
 		System.out.println();
 
 
@@ -177,23 +181,24 @@ public class ApptManipulation {
 		
 		switch (type) {
 						case "VEHICLE REGISTRATION":
-							year = String.valueOf(Integer.parseInt(results[0]) + 1);
+							year = String.valueOf(Integer.parseInt(results[YEAR]) + 1);
 							createVehicle();
 							break;
 			case "PERMIT":
-							year = String.valueOf(Integer.parseInt(results[0]) + 1);
+							year = String.valueOf(Integer.parseInt(results[YEAR]) + 1);
 							break;
 			case "LICENSE": 
-							year = String.valueOf(Integer.parseInt(results[0]) + 12);
+							year = String.valueOf(Integer.parseInt(results[YEAR]) + 12);
 							break;
 			case "STATE ID": 
-							year = String.valueOf(Integer.parseInt(results[0]) + 20);
+							year = String.valueOf(Integer.parseInt(results[YEAR]) + 20);
 							break;
 		}
-
-		String query = "INSERT INTO KATUR.DOCUMENT values (KATUR.SEQ_DOCUMENT.nextval, " + deptID + ", " + custID +
-				", TO_DATE(" + results[0] + '-' + results[1] + '-' + results[2] + ", 'YYYY-MM-DD'), TO_DATE(" + year +
-				'-' + results[1] + '-' + results[2] + ", 'YYYY-MM-DD'))";
+		String query = String.format("""
+				INSERT INTO KATUR.DOCUMENT values
+				(KATUR.SEQ_DOCUMENT.nextval, %s, %s,
+				TO_DATE('%s-%s-%s', 'YYYY-MM-DD'), TO_DATE('%s-%s-%s', 'YYYY-MM-DD'))""",
+				deptID, custID, results[YEAR], results[MONTH], results[DAY], year, results[MONTH], results[DAY]);
 		System.out.println(query);
 		dbConn.executeQuery(query);
 
@@ -268,9 +273,9 @@ public class ApptManipulation {
 		String minute = grabAndValidateNumericInput(2);
 
 		*/
-		dateArr[0] = year;
-		dateArr[1] = month;
-		dateArr[2] = day;
+		dateArr[YEAR] = year;
+		dateArr[MONTH] = month;
+		dateArr[DAY] = day;
 		//dateArr[3] = hour;
 		//dateArr[4] = minute;
 
