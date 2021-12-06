@@ -32,8 +32,7 @@ public class Queries {
         String[] date;
         if (dateStr.contains("/")) {
             date = dateStr.split("/");
-
-            // if the date contains month, day and year and 
+            // if the date contains month, day and year and
             // they are the correct amount of characters
             // and the characters are numeric
             if (date.length == 3      && date[0].length() == 2 && 
@@ -41,12 +40,6 @@ public class Queries {
                 dateValidator(date)) {
                 String dateString = date[2] + '-' + date[0] + '-' + date[1];
                 System.out.println("this is where query a would be executed with date " + dateStr);
-				//final String queryFormat = """
-				//				select KATUR.CUSTOMER.CUSTOMERID, KATUR.CUSTOMER.FNAME, KATUR.CUSTOMER.LNAME,
-				//					KATUR.DOCUMENT.ISSUEDATE, KATUR.DOCUMENT.EXPIRYDATE from DEPARTMENT
-				//					join DOCUMENT D on DEPARTMENT.DEPTID = D.DEPTID
-				//					where <date> = expirydate""";
-				//String query = queryFormat.replace("<date>", dateStr);
                 String query = "select b.CustomerID, b.FName, b.LName, a.issuedate, a.expirydate, c.type from " +
                         "katur.document a, katur.customer b, katur.apptxact c where a.customerid = b.customerid " +
                         "and a.customerid = c.customerid and a.issuedate = c.starttime and a.expirydate = <date>";
@@ -157,16 +150,6 @@ public class Queries {
                 query = query.replace("<start>", start);
                 query = query.replace("<end>", end);
                 dbConn.executeQueryAndPrint(query);
-				//final String queryFormat ="""
-				//		select * from DEPARTMENT join APPTXACT A2 on DEPARTMENT.DEPTID = A2.DEPTID
-				//		    where starttime >= ? and starttime < ?""";
-				//ps = dbConn.getConn().prepareStatement(queryFormat);
-				//ps.setDate(1, Date.valueOf(start));
-				//ps.setDate(2, Date.valueOf(end));
-				//ResultSet rs = ps.executeQuery();
-				// will since we never placed a pricing for this the results from this query will have to be added up
-				int sum = 0;
-				// loop of results goes here
             } else {
                 System.out.println("Please provide a date in the correct format");
                 return;
