@@ -61,22 +61,22 @@ public class EmployeeTuple {
 		}
 
 		System.out.print("First Name: ");
-		String fName = grabAndValidateInput();
+		String fName = grabAndValidateInput().toUpperCase();
 		
 		System.out.print("Last Name: ");
-		String lName = grabAndValidateInput();
+		String lName = grabAndValidateInput().toUpperCase();
 		
 		System.out.print("Address (Can be empty): ");
-		String address = this.user_in.nextLine();
+		String address = this.user_in.nextLine().toUpperCase();
 		
 		System.out.print("Job Title: ");
-		String jobTitle = grabAndValidateInput();
+		String jobTitle = grabAndValidateInput().toUpperCase();
 		
 		System.out.print("Salary (Only numbers allowed in input): ");
 		String salary = grabAndValidateIntegerInput();
 
 		System.out.print("Sex (M, F, or NULL): ");
-		String sex = grabAndValidateSexInput();
+		String sex = grabAndValidateSexInput().toUpperCase();
 		
 		String query = addEmployeeSQL.replace("<deptID>", deptID).replace("<fName>", fName).replace("<lName>", lName).replace("<address>", address);
 		query = query.replace("<jobTitle>", jobTitle).replace("<salary>", salary).replace("<sex>", sex);
@@ -139,7 +139,7 @@ public class EmployeeTuple {
 		}
 
 		System.out.print("Please enter the new value: ");
-		String value = this.user_in.nextLine();
+		String value = this.user_in.nextLine().toUpperCase();
 
 		String query = "";
 		query = updateEmployeeQuery.replace("<attr>", attr);

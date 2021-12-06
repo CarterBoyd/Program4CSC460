@@ -53,20 +53,20 @@ public class CustomerManipulation {
 	public void addCustomer() {
 		System.out.println("Please enter the following details: ");
 		System.out.print("First Name: ");
-		String fName = grabAndValidateInput();
+		String fName = grabAndValidateInput().toUpperCase();
 
 		System.out.print("Last Name: ");
-		String lName = grabAndValidateInput();
+		String lName = grabAndValidateInput().toUpperCase();
 		
 		System.out.print("Address: ");
-		String address = grabAndValidateInput();
+		String address = grabAndValidateInput().toUpperCase();
 
 		// height sex DOB can be NULL
 		System.out.print("Height (Total Inches): ");
 		String height = grabAndValidateIntegerInput(0, 3);
 
 		System.out.print("Sex (M, F, or NULL): ");
-		String sex = grabAndValidateSexInput();
+		String sex = grabAndValidateSexInput().toUpperCase();
 
 		System.out.println("Date of Birth");
 		System.out.print("Year (YYYY): ");
@@ -127,7 +127,7 @@ public class CustomerManipulation {
 		String attr = grabAndValidateInput().toLowerCase();
 		
 		System.out.print("Please enter the new value: ");
-		String newVal = grabAndValidateInput().toLowerCase();
+		String newVal = grabAndValidateInput().toUpperCase();
 
 		String query = updateCustomerSQL.replace("<attr>", attr);
 		query = query.replace("<#ID>", customerID);
