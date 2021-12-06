@@ -90,6 +90,19 @@ public class dbConnection {
 		ResultSet result = null;
 		try {
 			result = this.stmt.executeQuery(query);
+                        ResultSetMetaData rsmd = result.getMetaData();
+                        // print column names
+                        for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                            System.out.print(rsmd.getColumnName(i) + '\t');
+                        }
+                        System.out.println();
+
+                        // printing out result tuples
+                        while (result.next()) {
+                            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                                System.out.println(result.getString(i) + '\t');
+                            }
+                        }
 		} catch (SQLException e) {
 			/*
 			System.err.println("Unable to execute statement query");
