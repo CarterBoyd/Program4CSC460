@@ -135,12 +135,34 @@ public class ApptManipulation {
 		addStmt = addStmt.replace("<^>", successful);
 		addStmt = addStmt.replace("<&>", et);
 		addStmt = addStmt.replace("<*>", type);
-
 		System.out.println(addStmt);
 		if (!overLaps(st, et, empID))
 			dbConn.executeQuery(addStmt);
 		if (successful.equals("1"))
 			createDocument(results, deptID, custID, type);
+	}
+
+	/**
+	 * since the user can not have multiple licenses here will check to see if the user has an unexpired license
+	 *
+	 * @param custID the customer that is being checked for multiple licenses
+	 * @param st the start date
+	 * @return true if the user already has a license, false otherwise
+	 *
+	 * have not tested yet!!!
+	 */
+	private static boolean hasLicense(String custID, String st) {
+		String query = String.format("""
+				select * from KATUR.DOCUMENT
+				    where DEPTID = 1
+				    and CUSTOMERID = '%s'
+				    and EXPIRYDATE > '%s'""", custID, st);
+		try {
+			ResultSetMetaData results = dbConn.executeQuery(query).getMetaData();
+			return results != null;
+		} catch (SQLException e) {
+			return false;
+		}
 	}
 
 	/**
