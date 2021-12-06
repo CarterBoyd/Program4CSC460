@@ -20,19 +20,19 @@ public class ApptManipulation {
                                 "CustomerID = <@> AND StartTime = <#>"; 
 
     private static String add = "INSERT INTO KATUR.ApptXact " +
-                                "VALUES(<!>, TO_DATE(<@>, 'YYYY-MM-DD HH:MM'), <#>, <$>, <%>, <^>, TO_DATE(<&>, 'YYYY-MM-DD HH:MM'), <*>)";
+                                "VALUES(<!>, TO_DATE('<@>', 'YYYY-MM-DD HH24:MI'), <#>, <$>, <%>, <^>, TO_DATE('<&>', 'YYYY-MM-DD HH24:MI'), '<*>')";
 
     private static String update = "UPDATE KATUR.ApptXact " +
                                    "SET <@> = <#> WHERE CustomerId = <$> AND StartTime = <&>";
     private static String overlapCheck = "SELECT COUNT(*) FROM KATUR.ApptXact a " +
-                                         "WHERE a.EndTime = TO_DATE(<date>, 'YYYY/MM/DD HH:MM')" +
+                                         "WHERE a.EndTime = TO_DATE('<date>', 'YYYY/MM/DD HH24:MI')" +
                                          "AND a.CustomerID = <custid> AND ";
 
     private static final String EMPLOYEE_SEARCH = """
             Select count(*) from katur.apptxact where
-                (STARTTIME > TO_DATE(<startdate>,  'YYYY/MM/DD HH:MN') AND STARTTIME < TO_DATE(<enddate>, 'YYYY/MM/DD HH:MN')
+                (STARTTIME > TO_DATE('<startdate>',  'YYYY/MM/DD HH:MI') AND STARTTIME < TO_DATE('<enddate>', 'YYYY/MM/DD HH24:MI')
                     OR
-                (ENDTIME < TO_DATE(<enddate>, 'YYYY/MM/DD HH:MN') AND ENDTIME > (TO_DATE<startdate>, 'YYYY/MM/DD HH:MN'))
+                (ENDTIME < TO_DATE('<enddate>', 'YYYY/MM/DD HH:MI') AND ENDTIME > (TO_DATE('<startdate>', 'YYYY/MM/DD HH24:MI'))
                     AND CUSTOMERID = <ID>""";
 
     private static Scanner input = null;
