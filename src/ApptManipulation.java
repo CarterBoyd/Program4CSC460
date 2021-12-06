@@ -135,9 +135,17 @@ public class ApptManipulation {
 		addStmt = addStmt.replace("<^>", successful);
 		addStmt = addStmt.replace("<&>", et);
 		addStmt = addStmt.replace("<*>", type);
+
+		if (hasOverlaps(st, et, empID)) {
+			System.out.println("Overlap triggered");
+			return;
+		}
+		if (deptID.equals("1") && hasLicense(custID, st)) {
+			System.out.println("Another License found");
+			return;
+		}
 		System.out.println(addStmt);
-		if (!overLaps(st, et, empID))
-			dbConn.executeQuery(addStmt);
+		dbConn.executeQuery(addStmt);
 		if (successful.equals("1"))
 			createDocument(results, deptID, custID, type);
 	}
@@ -174,7 +182,7 @@ public class ApptManipulation {
 	 *
 	 * @implNote this was created with minimal testing, this query will return results but someone verifies if this is how you will find overlaps
 	 */
-	private static boolean overLaps(String startTime, String endTime, String empID) {
+	private static boolean hasOverlaps(String startTime, String endTime, String empID) {
 		String query = String.format("""
 				select * from APPTXACT
 				    where STARTTIME < TO_DATE('%s', 'YYYY MM DD')
