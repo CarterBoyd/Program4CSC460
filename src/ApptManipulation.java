@@ -192,7 +192,7 @@ public class ApptManipulation {
 
 	/**
 	 * adds tuple into the document table
-	 * @param results the results
+	 * @param results the results of the start time
 	 * @param deptID the department ID
 	 * @param custID the customer ID
 	 * @param type the type
@@ -203,7 +203,7 @@ public class ApptManipulation {
 		switch (type) {
 						case "VEHICLE REGISTRATION":
 							year = String.valueOf(Integer.parseInt(results[YEAR]) + 1);
-							createVehicle();
+							createVehicle(); // possible fix, run an if statement after the document is created for this type and if true execute
 							break;
 			case "PERMIT":
 							year = String.valueOf(Integer.parseInt(results[YEAR]) + 1);
@@ -222,7 +222,8 @@ public class ApptManipulation {
 				deptID, custID, results[YEAR], results[MONTH], results[DAY], year, results[MONTH], results[DAY]);
 		System.out.println(query);
 		dbConn.executeQuery(query);
-
+//		if (type.equals("VEHICLE REGISTRATION")) // like so
+//			createVehicle();
 	}
 
 		private static void createVehicle() {
