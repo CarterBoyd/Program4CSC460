@@ -131,7 +131,9 @@ public class ApptManipulation {
         addStmt = addStmt.replace("<%>", String.valueOf(cost));
         addStmt = addStmt.replace("<^>", successful);
         addStmt = addStmt.replace("<&>", et);
-		addStmt = addStmt.replace("<*>", type);
+	addStmt = addStmt.replace("<*>", type);
+
+        System.out.println(addStmt);
 
         dbConn.executeQuery(addStmt);
 		if (successful.equals("1"))
