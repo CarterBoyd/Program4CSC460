@@ -94,8 +94,8 @@ public class dbConnection {
 			/*
 			System.err.println("Unable to execute statement query");
 			System.err.println("\tMessage:   " + e.getMessage());
-        	System.err.println("\tSQLState:  " + e.getSQLState());
-        	System.err.println("\tErrorCode: " + e.getErrorCode());
+			System.err.println("\tSQLState:  " + e.getSQLState());
+			System.err.println("\tErrorCode: " + e.getErrorCode());
 			System.exit(-1);
 			*/
 		}
@@ -107,25 +107,25 @@ public class dbConnection {
 		ResultSet result = null;
 		try {
 			result = this.stmt.executeQuery(query);
-                        ResultSetMetaData rsmd = result.getMetaData();
-                        // print column names
-                        for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                            System.out.print(rsmd.getColumnName(i) + '\t');
-                        }
-                        System.out.println();
+						ResultSetMetaData rsmd = result.getMetaData();
+						// print column names
+						for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+							System.out.print(rsmd.getColumnName(i) + '\t');
+						}
+						System.out.println();
 
-                        // printing out result tuples
-                        while (result.next()) {
-                            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                                System.out.println(result.getString(i) + '\t');
-                            }
-                        }
+						// printing out result tuples
+						while (result.next()) {
+							for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+								System.out.println(result.getString(i) + '\t');
+							}
+						}
 		} catch (SQLException e) {
 			/*
 			System.err.println("Unable to execute statement query");
 			System.err.println("\tMessage:   " + e.getMessage());
-        	System.err.println("\tSQLState:  " + e.getSQLState());
-        	System.err.println("\tErrorCode: " + e.getErrorCode());
+			System.err.println("\tSQLState:  " + e.getSQLState());
+			System.err.println("\tErrorCode: " + e.getErrorCode());
 			System.exit(-1);
 			*/
 		}
@@ -141,8 +141,8 @@ public class dbConnection {
 		} catch(SQLException e) {
 			System.err.println("Unable to execute statement query");
 			System.err.println("\tMessage:   " + e.getMessage());
-        	System.err.println("\tSQLState:  " + e.getSQLState());
-        	System.err.println("\tErrorCode: " + e.getErrorCode());
+			System.err.println("\tSQLState:  " + e.getSQLState());
+			System.err.println("\tErrorCode: " + e.getErrorCode());
 			System.exit(-1);
 		}
 		return rowsEffected;
