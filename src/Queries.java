@@ -49,7 +49,7 @@ public class Queries {
 				//String query = queryFormat.replace("<date>", dateStr);
                 String query = "select b.CustomerID, b.FName, b.LName, a.issuedate, a.expirydate, c.type from " +
                         "katur.document a, katur.customer b, katur.apptxact c where a.customerid = b.customerid " +
-                        "and b.customerid = c.customerid and b.issuedate = c.starttime and b.expirydate = <date>";
+                        "and a.customerid = c.customerid and a.issuedate = c.starttime and a.expirydate = <date>";
                 query = query.replace("<date>", dateString);
 				dbConn.executeQueryAndPrint(query);
             } else {
