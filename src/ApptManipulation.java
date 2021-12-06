@@ -28,7 +28,6 @@ public class ApptManipulation {
 	private static final int YEAR = 0;
 	private static final int MONTH = 1;
 	private static final int DAY = 2;
-	private static final int MIN = 3;
 
 	private static final String EMPLOYEE_SEARCH = """
 			Select count(*) from katur.apptxact where
