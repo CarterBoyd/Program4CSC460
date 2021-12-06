@@ -117,9 +117,55 @@ public class ApptManipulation {
         addStmt = addStmt.replace("<%>", cost);
         addStmt = addStmt.replace("<^>", successful);
         addStmt = addStmt.replace("<&>", et);
-
+		addStmt = addStmt.replace("<*>", );
+		
         dbConn.executeQuery(addStmt);
     }
+
+	public String[] getDateFromUser() {
+		String[] dateArr = new String[5];
+		
+		System.out.print("Year (YYYY): ");
+		String year = grabAndValidateNumericInput(4);
+		
+		System.out.print("Month (MM): ");
+		String month = grabAndValidateNumericInput(2);
+
+		System.out.print("Day (DD): ");
+		String month = grabAndValidateNumericInput(2);
+		
+		System.out.print("Hour (HH): ");
+		String month = grabAndValidateNumericInput(2);
+		
+		System.out.print("Minute (MM): ");
+		String month = grabAndValidateNumericInput(2);
+		
+		dateArr[0] = year;
+		dateArr[1] = month;
+		dateArr[2] = day;
+		dateArr[3] = hour;
+		dateArr[4] = minute;
+
+		return dateArr;
+	}
+
+	public String grabAndValidateNumericInput(int length) {
+		String userInput = input.nextLine();
+		while (userInput.length() != length || checkIfNumeric(input) == -1) {
+			System.out.println("Invalid value, must be a number of length: " + length);
+			System.out.print("Please input a new value: ");
+			userInput = input.nextLine();
+		}
+		return userInput;
+	}
+
+	public int checkIfNumeric(String input) {
+		try {
+			return Integer.parseInt(input);
+		} catch (NumberFormatException e) {
+			return -1;		
+		}
+	}
 
     /*
     This method prompts the user for the primary key of the 
