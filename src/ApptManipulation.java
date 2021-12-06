@@ -101,8 +101,13 @@ public class ApptManipulation {
 		String st = results[0] + '-' + results[1] + '-' + results[2] + "- " + results[3] + ':' + results[4];
         System.out.println();
 
-        System.out.println("Cost: ");
-        String cost = input.nextLine();
+		int cost = 0;
+		switch (deptID) {
+			case "PERMIT" -> cost = 7;
+			case "LICENSE NUMBER" -> cost = 25;
+			case "STATE ID" -> cost = 100;
+			case "VEHICLE REGISTRATION" -> cost = 12;
+		}
         System.out.println();
 
         // successful codes: -1 = hasn't started, 0 = unsuccessful, 1 = successful
@@ -123,7 +128,7 @@ public class ApptManipulation {
         addStmt = addStmt.replace("<@>", empID);
         addStmt = addStmt.replace("<#>", custID);
         addStmt = addStmt.replace("<$>", st);
-        addStmt = addStmt.replace("<%>", cost);
+        addStmt = addStmt.replace("<%>", String.valueOf(cost));
         addStmt = addStmt.replace("<^>", successful);
         addStmt = addStmt.replace("<&>", et);
 		addStmt = addStmt.replace("<*>", type);
