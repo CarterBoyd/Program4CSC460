@@ -206,7 +206,7 @@ public class ApptManipulation {
 
 		private static void createVehicle() {
 				String query = "INSERT INTO KATUR.VEHICLE VALUES(KATUR.SEQ_DOCUMENT.currval, '<liscence#>', '<make>', '<model>', '<state>')";
-
+				//FIXME document will not have been inserted yet so this query will not link to the right document
  
 				System.out.println("------------- Add Vehicle -------------");
 				System.out.print("License Number: ");
