@@ -1,8 +1,8 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.io.*;
 import java.sql.*;
+import java.util.Date;
 import java.util.Scanner;
 
 /*
@@ -41,7 +41,7 @@ public class ApptManipulation {
     //TODO: if appointment is successful, a new document needs to be added
     // with the customer id and the service type
 
-    //TODO: need to make sure that appointments don't overlap, 
+    //TODO: need to make sure that appointments don't overlap,
     // can check for this on insert
 
     //TODO: add endtime where endtime is 1 hr after starttime
@@ -127,7 +127,7 @@ public class ApptManipulation {
         addStmt = addStmt.replace("<^>", successful);
         addStmt = addStmt.replace("<&>", et);
 		addStmt = addStmt.replace("<*>", type);
-		
+
         dbConn.executeQuery(addStmt);
 		if (successful.equals("1"))
 			createDocument(results, deptID, custID, type);
@@ -175,22 +175,22 @@ public class ApptManipulation {
 
 	public static String[] getDateFromUser() {
 		String[] dateArr = new String[5];
-		
+
 		System.out.print("Year (YYYY): ");
 		String year = grabAndValidateNumericInput(4);
-		
+
 		System.out.print("Month (MM): ");
 		String month = grabAndValidateNumericInput(2);
 
 		System.out.print("Day (DD): ");
 		String day = grabAndValidateNumericInput(2);
-		
+
 		System.out.print("Hour (HH): ");
 		String hour = grabAndValidateNumericInput(2);
-		
+
 		System.out.print("Minute (MM): ");
 		String minute = grabAndValidateNumericInput(2);
-		
+
 		dateArr[0] = year;
 		dateArr[1] = month;
 		dateArr[2] = day;
@@ -214,7 +214,7 @@ public class ApptManipulation {
 		try {
 			return Integer.parseInt(input);
 		} catch (NumberFormatException e) {
-			return -1;		
+			return -1;
 		}
 	}
 

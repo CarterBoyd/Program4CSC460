@@ -3,7 +3,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.YearMonth;
-
 /*
 This class is used to store the four required queries as strings.
 This class uses a dbConnection object to execute the queries 
