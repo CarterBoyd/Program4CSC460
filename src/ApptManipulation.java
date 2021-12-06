@@ -1,8 +1,6 @@
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.io.*;
-import java.sql.*;
-import java.util.Date;
 import java.util.Scanner;
 
 /*
@@ -136,10 +134,31 @@ public class ApptManipulation {
 		addStmt = addStmt.replace("<*>", type);
 
 		System.out.println(addStmt);
-
-		dbConn.executeQuery(addStmt);
+		if (!overLaps(st, et))
+			dbConn.executeQuery(addStmt);
 		if (successful.equals("1"))
 			createDocument(results, deptID, custID, type);
+	}
+
+	/**
+	 * Designed to check if the selected appointment overlaps
+	 * @param startTime the start time of the appointment
+	 * @param endTime the end time of the appointment
+	 * @return true if there are overlaps, false if there are no overlaps
+	 */
+	private static boolean overLaps(String startTime, String endTime) {
+		String query = String.format("""
+				select * from APPTXACT
+				    where STARTTIME < TO_DATE('%s', 'YYYY MM DD')
+				    and ENDTIME > TO_DATE('%s', 'YYYY MM DD')""", endTime, startTime);
+		ResultSetMetaData results;
+		try {
+			results = dbConn.executeQuery(query).getMetaData();
+			return results != null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**
@@ -151,12 +170,6 @@ public class ApptManipulation {
 	 */
 	private static void createDocument(String[] results, String deptID, String custID, String type) {
 		String year = null;
-		
-		String query = "INSERT INTO KATUR.DOCUMENT values (KATUR.SEQ_DOCUMENT.nextval, " + deptID + ", " + custID +
-				", TO_DATE(" + results[0] + '-' + results[1] + '-' + results[2] + ", 'YYYY-MM-DD'), TO_DATE(" + year +
-				'-' + results[1] + '-' + results[2] + ", 'YYYY-MM-DD')";
-		System.out.println(query);
-		dbConn.executeQuery(query);
 		
 		switch (type) {
 						case "VEHICLE REGISTRATION":
@@ -173,6 +186,12 @@ public class ApptManipulation {
 							year = String.valueOf(Integer.parseInt(results[0]) + 20);
 							break;
 		}
+
+		String query = "INSERT INTO KATUR.DOCUMENT values (KATUR.SEQ_DOCUMENT.nextval, " + deptID + ", " + custID +
+				", TO_DATE(" + results[0] + '-' + results[1] + '-' + results[2] + ", 'YYYY-MM-DD'), TO_DATE(" + year +
+				'-' + results[1] + '-' + results[2] + ", 'YYYY-MM-DD'))";
+		System.out.println(query);
+		dbConn.executeQuery(query);
 
 	}
 
