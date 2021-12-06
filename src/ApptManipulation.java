@@ -24,6 +24,13 @@ public class ApptManipulation {
                                          "WHERE a.EndTime = TO_DATE(<date>, 'YYYY/MM/DD HH:MM')" +
                                          "AND a.CustomerID = <custid> AND ";
 
+    private static final String EMPLOYEE_SEARCH = """
+            Select count(*) from katur.apptxact where
+                (STARTTIME > TO_DATE(<startdate>,  'YYYY/MM/DD HH:MN') AND STARTTIME < TO_DATE(<enddate>, 'YYYY/MM/DD HH:MN')
+                    OR
+                (ENDTIME < TO_DATE(<enddate>, 'YYYY/MM/DD HH:MN') AND ENDTIME > (TO_DATE<startdate>, 'YYYY/MM/DD HH:MN'))
+                    AND CUSTOMERID = <ID>""";
+
     private static Scanner input = null;
     private static dbConnection dbConn = null;
 
