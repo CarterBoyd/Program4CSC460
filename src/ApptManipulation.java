@@ -1,4 +1,6 @@
 import java.io.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 /*
@@ -109,6 +111,7 @@ public class ApptManipulation {
         String et = input.nextLine();
         System.out.println();
 
+		String type = getType(deptID);
         // replacing values in add statement
         String addStmt = add.replace("<!>", deptID);
         addStmt = addStmt.replace("<@>", empID);
@@ -117,10 +120,26 @@ public class ApptManipulation {
         addStmt = addStmt.replace("<%>", cost);
         addStmt = addStmt.replace("<^>", successful);
         addStmt = addStmt.replace("<&>", et);
-		addStmt = addStmt.replace("<*>", );
+		addStmt = addStmt.replace("<*>", type);
 		
         dbConn.executeQuery(addStmt);
     }
+
+	private static String getType(String deptID) {
+		ResultSet result = dbConn.executeQuery("select DEPTNAME from katur.DEPARTMENT" +
+				" where DEPTID = " + deptID);
+		try {
+			result.next();
+			return result.getString(1);
+		} catch(SQLException e) {
+			return "fucked up";
+		}
+	}
+
+	/*
+	select DEPTNAME from katur.DEPARTMENT
+    where DEPTID = deptID
+	 */
 
 	public String[] getDateFromUser() {
 		String[] dateArr = new String[5];
