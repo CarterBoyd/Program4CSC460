@@ -1,4 +1,3 @@
-import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -18,7 +17,7 @@ public class ApptManipulation {
                                 "CustomerID = <@> AND StartTime = <#>"; 
 
     private static String add = "INSERT INTO KATUR.ApptXact " +
-                                "VALUES(<!>, <@>, <#>, <$>, <%>, <^>, <&>, <*>)";
+                                "VALUES(<!>, TO_DATE(<@>, 'YYYY-MM-DD HH:MM'), <#>, <$>, <%>, <^>, TO_DATE(<&>, 'YYYY-MM-DD HH:MM'), <*>)";
 
     private static String update = "UPDATE KATUR.ApptXact " +
                                    "SET <@> = <#> WHERE CustomerId = <$> AND StartTime = <&>";
@@ -95,7 +94,8 @@ public class ApptManipulation {
         System.out.println();
         
         System.out.println("StartTime: ");
-        String st = input.nextLine();
+		String[] results = getDateFromUser();
+		String st = results[0] + '-' + results[1] + '-' + results[2] + "- " + results[3] + ':' + results[4];
         System.out.println();
 
         System.out.println("Cost: ");
@@ -105,10 +105,13 @@ public class ApptManipulation {
         // successful codes: -1 = hasn't started, 0 = unsuccessful, 1 = successful
         // successful is -1 by defualt because the appointment hasn't 
         // started yet
-        String successful = "-1";
-
+		System.out.println("Was this transaction successful? (1 for yes, 0 for no)");
+        String successful = input.nextLine();
+		while(!isZeroOrOne(successful))
+			successful = input.nextLine();
         System.out.println("EndTime: ");
-        String et = input.nextLine();
+		String[] endResult = getDateFromUser();
+		String et = endResult[0] + '-' + endResult[1] + '-' + endResult[2] + "- " + endResult[3] + ':' + endResult[4];
         System.out.println();
 
 		String type = getType(deptID);
@@ -124,6 +127,10 @@ public class ApptManipulation {
 		
         dbConn.executeQuery(addStmt);
     }
+
+	private static boolean isZeroOrOne(String successful) {
+		return successful.equals("0") || successful.equals("1");
+	}
 
 	private static String getType(String deptID) {
 		ResultSet result = dbConn.executeQuery("select DEPTNAME from katur.DEPARTMENT" +
@@ -141,7 +148,7 @@ public class ApptManipulation {
     where DEPTID = deptID
 	 */
 
-	public String[] getDateFromUser() {
+	public static String[] getDateFromUser() {
 		String[] dateArr = new String[5];
 		
 		System.out.print("Year (YYYY): ");
@@ -151,13 +158,13 @@ public class ApptManipulation {
 		String month = grabAndValidateNumericInput(2);
 
 		System.out.print("Day (DD): ");
-		String month = grabAndValidateNumericInput(2);
+		String day = grabAndValidateNumericInput(2);
 		
 		System.out.print("Hour (HH): ");
-		String month = grabAndValidateNumericInput(2);
+		String hour = grabAndValidateNumericInput(2);
 		
 		System.out.print("Minute (MM): ");
-		String month = grabAndValidateNumericInput(2);
+		String minute = grabAndValidateNumericInput(2);
 		
 		dateArr[0] = year;
 		dateArr[1] = month;
@@ -168,7 +175,7 @@ public class ApptManipulation {
 		return dateArr;
 	}
 
-	public String grabAndValidateNumericInput(int length) {
+	public static String grabAndValidateNumericInput(int length) {
 		String userInput = input.nextLine();
 		while (userInput.length() != length || checkIfNumeric(input) == -1) {
 			System.out.println("Invalid value, must be a number of length: " + length);
@@ -178,7 +185,7 @@ public class ApptManipulation {
 		return userInput;
 	}
 
-	public int checkIfNumeric(String input) {
+	public static int checkIfNumeric(String input) {
 		try {
 			return Integer.parseInt(input);
 		} catch (NumberFormatException e) {
