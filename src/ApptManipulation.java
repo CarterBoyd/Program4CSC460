@@ -20,9 +20,9 @@ public class ApptManipulation {
                                 "CustomerID = <@> AND StartTime = <#>"; 
 
     private static String add = "INSERT INTO KATUR.ApptXact " +
-                                "VALUES(<!>, TO_DATE('<@>', 'YYYY-MM-DD HH24:MI'), <#>, <$>, <%>, <^>, TO_DATE('<&>', 'YYYY-MM-DD HH24:MI'), '<*>')";
-
-    private static String update = "UPDATE KATUR.ApptXact " +
+                                "VALUES(<!>, TO_DATE('<@>', 'YYYY-MM-DD'), <#>, <$>, <%>, <^>, TO_DATE('<&>', 'YYYY-MM-DD'), '<*>')";
+    
+	private static String update = "UPDATE KATUR.ApptXact " +
                                    "SET <@> = <#> WHERE CustomerId = <$> AND StartTime = <&>";
     private static String overlapCheck = "SELECT COUNT(*) FROM KATUR.ApptXact a " +
                                          "WHERE a.EndTime = TO_DATE('<date>', 'YYYY/MM/DD HH24:MI')" +
@@ -98,15 +98,16 @@ public class ApptManipulation {
         
         System.out.println("StartTime: ");
 		String[] results = getDateFromUser();
-		String st = results[0] + '-' + results[1] + '-' + results[2] + "- " + results[3] + ':' + results[4];
+		String st = results[0] + '-' + results[1] + '-' + results[2];
         System.out.println();
 
-		int cost = 0;
-		switch (deptID) {
-			case "PERMIT" -> cost = 7;
-			case "LICENSE NUMBER" -> cost = 25;
-			case "STATE ID" -> cost = 100;
-			case "VEHICLE REGISTRATION" -> cost = 12;
+		String type = getType(deptID);
+		String cost = "";
+		switch (type) {
+			case "PERMIT" -> cost = "7";
+			case "LICENSE NUMBER" -> cost = "25";
+			case "STATE ID" -> cost = "100";
+			case "VEHICLE REGISTRATION" -> cost = "12";
 		}
         System.out.println();
 
@@ -119,16 +120,17 @@ public class ApptManipulation {
 			successful = input.nextLine();
         System.out.println("EndTime: ");
 		String[] endResult = getDateFromUser();
-		String et = endResult[0] + '-' + endResult[1] + '-' + endResult[2] + "- " + endResult[3] + ':' + endResult[4];
+		String et = endResult[0] + '-' + endResult[1] + '-' + endResult[2];
         System.out.println();
 
-		String type = getType(deptID);
+
+	
         // replacing values in add statement
-        String addStmt = add.replace("<!>", deptID);
-        addStmt = addStmt.replace("<@>", empID);
-        addStmt = addStmt.replace("<#>", custID);
-        addStmt = addStmt.replace("<$>", st);
-        addStmt = addStmt.replace("<%>", String.valueOf(cost));
+        String addStmt = add.replace("<$>", deptID);
+        addStmt = addStmt.replace("<#>", empID);
+        addStmt = addStmt.replace("<!>", custID);
+        addStmt = addStmt.replace("<@>", st);
+        addStmt = addStmt.replace("<%>", cost);
         addStmt = addStmt.replace("<^>", successful);
         addStmt = addStmt.replace("<&>", et);
 	addStmt = addStmt.replace("<*>", type);
@@ -149,8 +151,15 @@ public class ApptManipulation {
 	 */
 	private static void createDocument(String[] results, String deptID, String custID, String type) {
 		String year = null;
+		
+		String query = "INSERT INTO KATUR.DOCUMENT values (KATUR.SEQ_DOCUMENT.nextval, " + deptID + ", " + custID +
+				", TO_DATE(" + results[0] + '-' + results[1] + '-' + results[2] + ", 'YYYY-MM-DD'), TO_DATE(" + year +
+				'-' + results[1] + '-' + results[2] + ", 'YYYY-MM-DD')";
+		System.out.println(query);
+		dbConn.executeQuery(query);
+		
 		switch (type) {
-                        case "VEHICLE":
+                      	case "VEHICLE REGISTRATION":
                             year = String.valueOf(Integer.parseInt(results[0]) + 1);
                             createVehicle();
                             break;
@@ -164,16 +173,11 @@ public class ApptManipulation {
                             year = String.valueOf(Integer.parseInt(results[0]) + 20);
                             break;
 		}
-		String query = "INSERT INTO KATUR.DOCUMENT values (KATUR.SEQ_DOCUMENT.nextval, " + deptID + ", " + custID +
-				", TO_DATE(" + results[0] + '-' + results[1] + '-' + results[2] + ", 'YYYY-MM-DD'), TO_DATE(" + year +
-				'-' + results[1] + '-' + results[2] + ", 'YYYY-MM-DD')";
-		dbConn.executeQuery(query);
-
                 
 	}
 
         private static void createVehicle() {
-                String query = "INSER INTO KATUR.VEHICLE VALUES(KATUR.SEQ_DOCUMENT.currval, '<liscence#>', '<make>', '<model>', '<state>')";
+                String query = "INSERT INTO KATUR.VEHICLE VALUES(KATUR.SEQ_DOCUMENT.currval, '<liscence#>', '<make>', '<model>', '<state>')";
 
  
                 System.out.println("------------- Add Vehicle -------------");
@@ -233,17 +237,19 @@ public class ApptManipulation {
 		System.out.print("Day (DD): ");
 		String day = grabAndValidateNumericInput(2);
 
+		/*
 		System.out.print("Hour (HH): ");
 		String hour = grabAndValidateNumericInput(2);
 
 		System.out.print("Minute (MM): ");
 		String minute = grabAndValidateNumericInput(2);
 
+		*/
 		dateArr[0] = year;
 		dateArr[1] = month;
 		dateArr[2] = day;
-		dateArr[3] = hour;
-		dateArr[4] = minute;
+		//dateArr[3] = hour;
+		//dateArr[4] = minute;
 
 		return dateArr;
 	}
