@@ -1,5 +1,6 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Scanner;
 
 /*
@@ -126,7 +127,29 @@ public class ApptManipulation {
 		addStmt = addStmt.replace("<*>", type);
 		
         dbConn.executeQuery(addStmt);
+		if (successful.equals("1"))
+			createDocument(results, deptID, custID, type);
     }
+
+	/**
+	 * adds tuple into the document table
+	 * @param results the results
+	 * @param deptID the department ID
+	 * @param custID the customer ID
+	 * @param type the type
+	 */
+	private static void createDocument(String[] results, String deptID, String custID, String type) {
+		String year = null;
+		switch (type) {
+			case "PERMIT", "VEHICLE REGISTRATION" -> year = String.valueOf(Integer.parseInt(results[0]) + 1);
+			case "LICENSE" -> year = String.valueOf(Integer.parseInt(results[0]) + 12);
+			case "STATE ID" -> year = String.valueOf(Integer.parseInt(results[0]) + 20);
+		}
+		final String query = "INSERT INTO KATUR.DOCUMENT values (KATUR.SEQ_DOCUMENT.nextval, " + deptID + ", " + custID +
+				", TO_DATE(" + results[0] + '-' + results[1] + '-' + results[2] + ", 'YYYY-MM-DD'), TO_DATE(" + year +
+				'-' + results[1] + '-' + results[2] + ", 'YYYY-MM-DD')";
+		dbConn.executeQuery(query);
+	}
 
 	private static boolean isZeroOrOne(String successful) {
 		return successful.equals("0") || successful.equals("1");
@@ -177,7 +200,7 @@ public class ApptManipulation {
 
 	public static String grabAndValidateNumericInput(int length) {
 		String userInput = input.nextLine();
-		while (userInput.length() != length || checkIfNumeric(input) == -1) {
+		while (userInput.length() != length || checkIfNumeric(userInput) == -1) {
 			System.out.println("Invalid value, must be a number of length: " + length);
 			System.out.print("Please input a new value: ");
 			userInput = input.nextLine();
