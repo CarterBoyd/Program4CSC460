@@ -20,10 +20,20 @@ public class ApptManipulation {
 
     private static String update = "UPDATE KATUR.ApptXact " +
                                    "SET <@> = <#> WHERE CustomerId = <$> AND StartTime = <&>";
+    private static String overlapCheck = "SELECT COUNT(*) FROM KATUR.ApptXact a " +
+                                         "WHERE a.EndTime = TO_DATE(<date>, 'YYYY/MM/DD HH:MM')" +
+                                         "AND a.CustomerID = <custid> AND ";
 
     private static Scanner input = null;
     private static dbConnection dbConn = null;
 
+    //TODO: if appointment is successful, a new document needs to be added
+    // with the customer id and the service type
+
+    //TODO: need to make sure that appointments don't overlap, 
+    // can check for this on insert
+
+    //TODO: add endtime where endtime is 1 hr after starttime
     ApptManipulation(Scanner input, dbConnection dbConn) {
         this.input = input;
         this.dbConn = dbConn;
