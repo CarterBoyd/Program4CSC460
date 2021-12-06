@@ -125,6 +125,5 @@ public class DeptManipulation {
 			System.out.println("\n Query didn't work, make sure you entered a correct attribute name.");
 		}
    }
-
 }
 

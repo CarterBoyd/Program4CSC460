@@ -90,6 +90,23 @@ public class dbConnection {
 		ResultSet result = null;
 		try {
 			result = this.stmt.executeQuery(query);
+		} catch (SQLException e) {
+			/*
+			System.err.println("Unable to execute statement query");
+			System.err.println("\tMessage:   " + e.getMessage());
+        	System.err.println("\tSQLState:  " + e.getSQLState());
+        	System.err.println("\tErrorCode: " + e.getErrorCode());
+			System.exit(-1);
+			*/
+		}
+
+		return result;
+	}
+
+	public ResultSet executeQueryAndPrint(String query) {
+		ResultSet result = null;
+		try {
+			result = this.stmt.executeQuery(query);
                         ResultSetMetaData rsmd = result.getMetaData();
                         // print column names
                         for (int i = 1; i <= rsmd.getColumnCount(); i++) {
@@ -114,6 +131,7 @@ public class dbConnection {
 		}
 
 		return result;
+
 	}
 
 	public int executeUpdate(String query) {
