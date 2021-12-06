@@ -146,7 +146,11 @@ public class Prog4 {
             case "C":
                 System.out.print("Date (MM/YYYY): ");
                 String dateB = input.nextLine();
-                queries.executeQC(dateB);
+                try {
+                    queries.executeQC(dateB);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "D":
                 System.out.print("Input: ");

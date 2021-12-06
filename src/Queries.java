@@ -129,23 +129,37 @@ public class Queries {
     Params: date - in the form of MM/YYYY
     Return: none
     */
-    public static void executeQC(String dateStr) {
+    public static void executeQC(String dateStr) throws SQLException {
         String[] date;
         if (dateStr.contains("/")) {
             date = dateStr.split("/");
-
             // if the date contains month, day and year and 
             // they are the correct amount of characters
             // and the characters are numeric
             if (date.length == 2      && date[0].length() == 2 && 
                 date[1].length() == 4 && dateValidator(date)) {
-                
+                String start = date[1] + '-' + date[0] + '-' + 01;
+                int month = Integer.valueOf(date[0]);
+                String end;
+                if (month == 12) {
+                    end = Integer.valueOf(date[1]) + 1 + '-' + String.valueOf(01) + '-' + 01;
+                } else {
+                    end = date[1] + '-' + month + 1 + '-' + 01;
+                }
                 System.out.println("this is where query c would be executed with date " + dateStr);
-				final String queryFormat ="""
-						select * from DEPARTMENT join APPTXACT A2 on DEPARTMENT.DEPTID = A2.DEPTID
-						    where extract(month from ENDTIME) = <month>""";
-				String query = queryFormat.replace("<month>", dateStr);
-                dbConn.executeQuery(query);
+                String query = "select a.deptID, deptName, deptAddress sum(cost) from katur.department a, " +
+                        "katur.apptxact b where a.deptID = b.deptID and starttime >= <start> and starttime < <end> " +
+                        "group by a.deptID order by sum(cost) desc";
+                query = query.replace("<start>", start);
+                query = query.replace("<end>", end);
+                dbConn.executeQueryAndPrint(query);
+				//final String queryFormat ="""
+				//		select * from DEPARTMENT join APPTXACT A2 on DEPARTMENT.DEPTID = A2.DEPTID
+				//		    where starttime >= ? and starttime < ?""";
+				//ps = dbConn.getConn().prepareStatement(queryFormat);
+				//ps.setDate(1, Date.valueOf(start));
+				//ps.setDate(2, Date.valueOf(end));
+				//ResultSet rs = ps.executeQuery();
 				// will since we never placed a pricing for this the results from this query will have to be added up
 				int sum = 0;
 				// loop of results goes here
