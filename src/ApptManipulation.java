@@ -166,8 +166,8 @@ public class ApptManipulation {
 				    and CUSTOMERID = '%s'
 				    and EXPIRYDATE > '%s'""", custID, st);
 		try {
-			ResultSetMetaData results = dbConn.executeQuery(query).getMetaData();
-			return results != null;
+			ResultSet results = dbConn.executeQuery(query);
+			return results.next();
 		} catch (SQLException e) {
 			return false;
 		}
@@ -184,14 +184,14 @@ public class ApptManipulation {
 	 */
 	private static boolean hasOverlaps(String startTime, String endTime, String empID) {
 		String query = String.format("""
-				select * from APPTXACT
+				select * from KATUR.APPTXACT
 				    where STARTTIME < TO_DATE('%s', 'YYYY MM DD')
 				    and ENDTIME > TO_DATE('%s', 'YYYY MM DD')
 				    and EMPLOYEEID = %s""", endTime, startTime, empID); //overlapping should be focussed on employee schedule, so here's a checker
-		ResultSetMetaData results;
+		ResultSet results;
 		try {
-			results = dbConn.executeQuery(query).getMetaData();
-			return results != null;
+			results = dbConn.executeQuery(query);
+			return results.next();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
