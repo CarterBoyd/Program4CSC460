@@ -117,15 +117,17 @@ public class ApptManipulation {
 
 		String type = getType(deptID);
         // replacing values in add statement
-        String addStmt = add.replace("<!>", deptID);
-        addStmt = addStmt.replace("<@>", empID);
-        addStmt = addStmt.replace("<#>", custID);
-        addStmt = addStmt.replace("<$>", st);
+        String addStmt = add.replace("<!>", custID);
+        addStmt = addStmt.replace("<@>", st);
+        addStmt = addStmt.replace("<#>", empID);
+        addStmt = addStmt.replace("<$>", deptID);
         addStmt = addStmt.replace("<%>", cost);
         addStmt = addStmt.replace("<^>", successful);
         addStmt = addStmt.replace("<&>", et);
-		addStmt = addStmt.replace("<*>", type);
-		
+        addStmt = addStmt.replace("<*>", type);
+
+        System.out.println(addStmt);
+
         dbConn.executeQuery(addStmt);
 		if (successful.equals("1"))
 			createDocument(results, deptID, custID, type);
@@ -141,15 +143,56 @@ public class ApptManipulation {
 	private static void createDocument(String[] results, String deptID, String custID, String type) {
 		String year = null;
 		switch (type) {
-			case "PERMIT", "VEHICLE REGISTRATION" -> year = String.valueOf(Integer.parseInt(results[0]) + 1);
-			case "LICENSE" -> year = String.valueOf(Integer.parseInt(results[0]) + 12);
-			case "STATE ID" -> year = String.valueOf(Integer.parseInt(results[0]) + 20);
+                        case "VEHICLE":
+                            year = String.valueOf(Integer.parseInt(results[0]) + 1);
+                            createVehicle();
+                            break;
+			case "PERMIT":
+                            year = String.valueOf(Integer.parseInt(results[0]) + 1);
+                            break;
+			case "LICENSE": 
+                            year = String.valueOf(Integer.parseInt(results[0]) + 12);
+                            break;
+			case "STATE ID": 
+                            year = String.valueOf(Integer.parseInt(results[0]) + 20);
+                            break;
 		}
-		final String query = "INSERT INTO KATUR.DOCUMENT values (KATUR.SEQ_DOCUMENT.nextval, " + deptID + ", " + custID +
+		String query = "INSERT INTO KATUR.DOCUMENT values (KATUR.SEQ_DOCUMENT.nextval, " + deptID + ", " + custID +
 				", TO_DATE(" + results[0] + '-' + results[1] + '-' + results[2] + ", 'YYYY-MM-DD'), TO_DATE(" + year +
 				'-' + results[1] + '-' + results[2] + ", 'YYYY-MM-DD')";
 		dbConn.executeQuery(query);
+
+                
 	}
+
+        private static void createVehicle() {
+                String query = "INSER INTO KATUR.VEHICLE VALUES(KATUR.SEQ_DOCUMENT.currval, '<liscence#>', '<make>', '<model>', '<state>')";
+
+ 
+                System.out.println("------------- Add Vehicle -------------");
+                System.out.print("License Number: ");
+                String lNum = input.nextLine();
+                System.out.println();
+
+                System.out.print("Make: ");
+                String make = input.nextLine();
+                System.out.println();
+
+                System.out.print("Model: ");
+                String model = input.nextLine();
+                System.out.println();
+
+                System.out.print("State: ");
+                String state = input.nextLine();
+                System.out.println();
+
+                query = query.replace("<liscence#>", lNum);
+                query = query.replace("<make>", make);
+                query = query.replace("<model>", model);
+                query = query.replace("<state>", state);
+
+                dbConn.executeQuery(query);
+        }
 
 	private static boolean isZeroOrOne(String successful) {
 		return successful.equals("0") || successful.equals("1");
