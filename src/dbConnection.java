@@ -117,8 +117,9 @@ public class dbConnection {
 						// printing out result tuples
 						while (result.next()) {
 							for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-								System.out.println(result.getString(i) + '\t');
+								System.out.print(result.getString(i) + '\t');
 							}
+                            System.out.println();
 						}
 		} catch (SQLException e) {
 			/*

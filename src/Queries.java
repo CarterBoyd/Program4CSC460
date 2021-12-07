@@ -176,10 +176,11 @@ public class Queries {
         System.out.println("Please enter vehicle model: ");
         String d2 = scan.nextLine().toUpperCase();
         System.out.println();
-        String query = String.format("select licensenumber, fname, " +
-                "lname from katur.vehicle join katur.document on document.id " +
-                "= vehicle.documentid join katur.customer on customer.customerid = " +
-                "document.customerid where make = '%s' and model = '%s'", d1, d2);
+        String query = String.format("select LICENSENUMBER, FNAME, LNAME from KATUR.VEHICLE" +
+                "    join KATUR.DOCUMENT on DOCUMENT.DOCUMENTID = VEHICLE.DOCUMENTID" +
+                "    join KATUR.CUSTOMER on CUSTOMER.CUSTOMERID = DOCUMENT.CUSTOMERID" +
+                "    where MAKE = '%s'" +
+                "    and MODEL = '%s'", d1, d2);
         dbConn.executeQueryAndPrint(query);
     }
 
