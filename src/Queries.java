@@ -42,14 +42,14 @@ public class Queries {
                 dateValidator(date)) {
                 String dateString = date[2] + '-' + date[0] + '-' + date[1];
                 System.out.println("this is where query a would be executed with date " + dateStr);
-                String query = "select b.CustomerID, b.FName, b.LName, a.issuedate, a.expirydate, c.type from " +
-                        "katur.document a, katur.customer b, katur.apptxact c where a.customerid = b.customerid " +
-                        "and a.customerid = c.customerid and a.issuedate = c.starttime and a.expirydate = <date>";
+                String query = "select b.CustomerID, b.FName, b.LName, a.issuedate, a.expirydate, c.type from" +
+                        "katur.document a, katur.customer b, katur.apptxact c" +
+                        "where a.customerid = b.customerid and a.customerid = c.customerid" +
+                        "and a.issuedate = c.starttime and a.expirydate = TO_DATE('<date>>', 'YYYY-MM-DD')";
                 query = query.replace("<date>", dateString);
 				dbConn.executeQueryAndPrint(query);
             } else {
                 System.out.println("Please provide a date in the correct format");
-                return;
             }
         // input date doesn't contain any slashes 
         } else {
