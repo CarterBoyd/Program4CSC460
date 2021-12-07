@@ -118,6 +118,7 @@ public class Queries {
         }
         System.out.println("IDs last month: " + type);
         System.out.println("Successful IDs: " + succ);
+        ps.close();
     }
 
     /*
