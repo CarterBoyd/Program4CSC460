@@ -1,5 +1,5 @@
-To run this program the TA will need to compile Prog4.java. When Prog4 is ran the user will need to provide their Oracle username and password as command line,
-arguments the user will then be presented with a text-base UI with multiple options. 
+To run this program the TA will need to compile Prog4.java. When Prog4 is ran the user will need to provide their Oracle username and password as command line
+arguments, the user will then be presented with a text-base UI with multiple options. 
 
 For this project the team utilized the agile workflow process, using GitHub project, each team member selected 
 the tasks/feature they wanted to work on. More specifically Raymond primarily worked on the UI. Logan worked on 
