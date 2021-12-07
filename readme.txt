@@ -4,4 +4,5 @@ To run this program the TA will need to compile Prog4.java. When Prog4 is ran th
 For this project the team utilized the agile workflow process, using GitHub project, each team member selected 
 the tasks/feature they wanted to work on. More specifically Raymond primarily worked on the UI. Logan worked on 
 creating the functionality that allowed for database manipulation. Carter worked on creating the database/database 
-managment. Anthony created the queries. However, no teammate worked on any aspect of the project on their own. We had multiple Discord sessions where we would work in team to complete the assignment. 
+managment. Anthony created the queries. However, no teammate worked on any aspect of the project on their own. 
+We had multiple Discord sessions where we would work in team to complete the assignment. 
