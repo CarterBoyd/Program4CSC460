@@ -350,7 +350,7 @@ public class ApptManipulation {
 		System.out.println();
 
 		System.out.print("Which attribute would you like to change?");
-		System.out.println(" (DepartmentID, EmployeeID, CustomerID, StartTime, Cost, Successful, EndTime)");
+		System.out.println(" (DepartmentID, EmployeeID, CustomerID, StartTime, Cost, Successfully, EndTime)");
 		System.out.print("Attribute to change: ");
 		String changeAttr = input.nextLine();
 
