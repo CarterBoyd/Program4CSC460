@@ -169,11 +169,11 @@ public class Queries {
     Params: TODO
     Return: none
     */
-    public static void executeQD(String input) {
+    public static void executeQD() {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Please enter one county name: ");
+        System.out.println("Please enter vehicle make: ");
         String d1 = scan.nextLine().toUpperCase();
-        System.out.println("Please enter the next county name: ");
+        System.out.println("Please enter vehicle model: ");
         String d2 = scan.nextLine().toUpperCase();
         System.out.println();
         String query = String.format("select licensenumber, fname, " +

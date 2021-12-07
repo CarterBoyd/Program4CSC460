@@ -97,7 +97,7 @@ public class Prog4 {
 		"were successful? (Organized by type of appointment)\n");
 		System.out.println("(c): How much money did each department collect in fees? " +
 		"(Provide a date in the format of MM/YYYY)\n");
-		System.out.println("(d): Our own created query\n");
+		System.out.println("(d): What are the license numbers and names of owners, given a certain vehicle make and model?\n");
 		System.out.println("(e): Display this message again.\n");
 		System.out.println("(f): Exit application.\n");
 		System.out.println("(g): Update a row in a table/Delete a row from a table/Add a row to a table.\n");
@@ -153,9 +153,9 @@ public class Prog4 {
 				}
 				break;
 			case "D":
-				System.out.print("Input: ");
-				String usrInD = input.nextLine();
-				queries.executeQD(usrInD);
+				//System.out.print("Input: ");
+				//String usrInD = input.nextLine();
+				queries.executeQD();
 				break;
 			case "E":
 				displayMenu();
