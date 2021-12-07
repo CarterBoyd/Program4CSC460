@@ -211,7 +211,6 @@ public class ApptManipulation {
 		switch (type) {
 						case "VEHICLE REGISTRATION":
 							year = String.valueOf(Integer.parseInt(results[YEAR]) + 1);
-							createVehicle(); // possible fix, run an if statement after the document is created for this type and if true execute
 							break;
 			case "PERMIT":
 							year = String.valueOf(Integer.parseInt(results[YEAR]) + 1);
@@ -230,14 +229,13 @@ public class ApptManipulation {
 				deptID, custID, results[YEAR], results[MONTH], results[DAY], year, results[MONTH], results[DAY]);
 		System.out.println(query);
 		dbConn.executeQuery(query);
-//		if (type.equals("VEHICLE REGISTRATION")) // like so
-//			createVehicle();
+		if (type.equals("VEHICLE REGISTRATION")) // like so
+			createVehicle();
 	}
 
 		private static void createVehicle() {
 				String query = "INSERT INTO KATUR.VEHICLE VALUES(KATUR.SEQ_DOCUMENT.currval, '<liscence#>', '<make>', '<model>', '<state>')";
-				//FIXME document will not have been inserted yet so this query will not link to the right document
- 
+
 				System.out.println("------------- Add Vehicle -------------");
 				System.out.print("License Number: ");
 				String lNum = input.nextLine();
