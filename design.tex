@@ -1,0 +1,78 @@
+%-------Preamble-----------------------------------------------------%
+
+\documentclass[12pt]{article}   % others are available, like book
+
+\usepackage{amssymb}            % adds more math symbols to LaTeX's basic set
+\usepackage{graphicx}           % for importing/adjusting images
+\usepackage{pifont}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{blkarray, bigstrut}
+
+\newcommand{\xmark}{\ding{55}}
+\newcommand\floor[1]{\lfloor#1\rfloor}
+\newcommand\ceil[1]{\lceil#1\rceil}
+
+\setlength{\topmargin}{-0.50in}     % in == inches (others:  cm, mm, pt, ...)
+\setlength{\textheight}{9.25in}     % what's left-over is the bottom margin
+\setlength{\textwidth}{6.625in}
+\setlength{\oddsidemargin}{0.0in}   % right-side pages in a magazine
+\setlength{\evensidemargin}{0.0in}  % left-side
+
+\setlength{\parindent}{0.0cm}	    % don't indent first lines of paragraphs
+\setlength{\parskip}{0.4cm}   
+%------------------------------body---------------------------------------%
+\begin{document}
+\begin{titlepage}
+   \begin{center}
+       \vspace*{1cm}
+
+       \underline{\textbf{Project \#4 Database Design}}
+
+       \vspace{1.5cm}
+
+       \textbf{Raymond Rea, Logan ..., Carter ..., Anthony ...}
+
+       \vfill
+            
+       CSc 460\\
+       University of Arizona\\
+       12/06/2021
+            
+   \end{center}
+\end{titlepage}
+\newpage
+
+%\begin{document}
+
+\underline{Conceptual Database Design}\\
+\\
+\textbf{High-Level Description of Database Structure:} Our database uses the relational model. The relational model allows data to be stored into multiple relations and allows for queries to use foreign keys to access data stored in any relation.\\
+
+\textbf{User's Data Requirements:} Permits are valid for 1 year and cost \$7 to obtain. Licences are valid for 12 years and cost \$25. Vehicle registrations are valid for 1 year and cost \$100. State IDs are valid for 20 years and cost \$12. Dates in the relations are in the form of YYYY-MM-DD.
+
+\underline{Logical Database Design}\\
+\\
+\textbf{Employee}(EmployeeID(\textbf{PK}), DeptID(\textbf{FK}), FName, LName, Address, Salary, JobTitle, Sex)\\
+
+\textbf{Department}(DeptID(\textbf{PK}), DeptName, DeptAddress, ServiceType, Active)\\
+
+\textbf{Customer}(CustomerID(\textbf{PK}), FName, LName, Address, Height, Sex, DOB)\\
+
+\textbf{Document}(DocumentID(\textbf{PK}), DeptID(\textbf{FK}), CustomerID(\textbf{FK}), IssueDate(\textbf{FK}), ExpiryDate)\\
+
+\textbf{Vehicle}(DocumentID(\textbf{PK + FK}), LicencseNumber, Make, Model, RegisteredState)\\
+
+\textbf{ApptXact}(DeptID(\textbf{FK}), EmployeeID(\textbf{FK}), (CustomerID(\textbf{FK}, StartTime)(\textbf{PK}), Cost, Successful, EndTime, Type)\\
+
+\underline{Normalization Analysis}\\
+\\
+TBD
+
+\underline{Query Description}\\
+\\ 
+TBD
+
+
+
+\end{document}  
