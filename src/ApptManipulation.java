@@ -1,5 +1,4 @@
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -229,7 +228,7 @@ public class ApptManipulation {
 				deptID, custID, results[YEAR], results[MONTH], results[DAY], year, results[MONTH], results[DAY]);
 		System.out.println(query);
 		dbConn.executeQuery(query);
-		if (type.equals("VEHICLE REGISTRATION")) // like so
+		if (type.equals("VEHICLE REGISTRATION"))
 			createVehicle();
 	}
 
