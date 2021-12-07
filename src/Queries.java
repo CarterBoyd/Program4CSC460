@@ -65,12 +65,12 @@ public class Queries {
     */
     public static void executeQB() throws SQLException {
         System.out.println("this is where query b would be executed");
-        String dept = "select * from katur.apptxact where type = ? and starttime >= ? and starttime <= ?;";
+        String dept = "select * from katur.apptxact where type = ? and starttime >= TO_DATE(?, 'YYYY-MM-DD') and starttime <= TO_DATE(?, 'YYYY-MM-DD');";
         ps = dbConn.getConn().prepareStatement(dept, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ResultSet answer = null;
-        ps.setString(1,  "PERMIT");
-        ps.setDate(2, Date.valueOf(YearMonth.now().minusMonths(1).atDay(1).toString()));
-        ps.setDate(3, Date.valueOf(YearMonth.now().minusMonths(1).atEndOfMonth().toString()));
+        ps.setString(1,  "'PERMIT'");
+        ps.setString(2, '\'' + YearMonth.now().minusMonths(1).atDay(1).toString() + '\'');
+        ps.setString(3, '\'' + YearMonth.now().minusMonths(1).atEndOfMonth().toString() + '\'');
         answer = ps.executeQuery();
         int type = 0;
         int succ = 0;
