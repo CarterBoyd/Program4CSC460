@@ -41,11 +41,10 @@ public class Queries {
                 date[1].length() == 2 && date[2].length() == 4 && 
                 dateValidator(date)) {
                 String dateString = date[2] + '-' + date[0] + '-' + date[1];
-                System.out.println("this is where query a would be executed with date " + dateStr);
-                String query = "select b.CustomerID, b.FName, b.LName, a.issuedate, a.expirydate, c.type from" +
-                        "katur.document a, katur.customer b, katur.apptxact c" +
-                        "where a.customerid = b.customerid and a.customerid = c.customerid" +
-                        "and a.issuedate = c.starttime and a.expirydate = TO_DATE('<date>>', 'YYYY-MM-DD')";
+                String query = "select b.CustomerID, b.FName, b.LName, a.issuedate, a.expirydate, c.type from " +
+                        "katur.document a, katur.customer b, katur.apptxact c " +
+                        "where a.customerid = b.customerid and a.customerid = c.customerid " +
+                        "and a.issuedate = c.starttime and a.expirydate = TO_DATE('<date>', 'YYYY-MM-DD')";
                 query = query.replace("<date>", dateString);
 				dbConn.executeQueryAndPrint(query);
             } else {
