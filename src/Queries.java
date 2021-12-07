@@ -136,24 +136,21 @@ public class Queries {
             // and the characters are numeric
             if (date.length == 2      && date[0].length() == 2 && 
                 date[1].length() == 4 && dateValidator(date)) {
-                String start = date[1] + '-' + date[0] + '-' + 01;
-                int month = Integer.valueOf(date[0]);
-                String end;
-                if (month == 12) {
-                    end = Integer.valueOf(date[1]) + 1 + '-' + String.valueOf(01) + '-' + 01;
-                } else {
-                    end = date[1] + '-' + month + 1 + '-' + 01;
-                }
-                System.out.println("this is where query c would be executed with date " + dateStr);
-                String query = "select a.deptID, deptName, deptAddress sum(cost) from katur.department a, " +
-                        "katur.apptxact b where a.deptID = b.deptID and starttime >= <start> and starttime < <end> " +
-                        "group by a.deptID order by sum(cost) desc";
+                String start = date[1] + '-' + date[0] + '-' + "01";
+                int month = Integer.parseInt(date[0]);
+                String end = date[1] + '-' + date[0] + '-';
+                end += YearMonth.of(Integer.parseInt(date[1]), month).lengthOfMonth();
+                String query = "select DEPARTMENT.deptid, DEPARTMENT.DEPTNAME, DEPARTMENT.DEPTADDRESS, DEPARTMENT.ACTIVE, sum(COST) from KATUR.DEPARTMENT " +
+                        "join KATUR.APPTXACT on DEPARTMENT.DEPTID = APPTXACT.DEPTID " +
+                        "where STARTTIME >= TO_DATE('<start>', 'YYYY-MM-DD') " +
+                        "and ENDTIME <= TO_DATE('<end>', 'YYYY-MM-DD') " +
+                        "group by DEPARTMENT.DEPTID, DEPTADDRESS, DEPTNAME, ACTIVE " +
+                        "order by sum(COST) desc";
                 query = query.replace("<start>", start);
                 query = query.replace("<end>", end);
                 dbConn.executeQueryAndPrint(query);
             } else {
                 System.out.println("Please provide a date in the correct format");
-                return;
             }
         // input date doesn't contain any slashes 
         } else {

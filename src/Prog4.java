@@ -116,7 +116,7 @@ public class Prog4 {
 			System.out.print("Option: ");
 			usrIn = input.nextLine().toUpperCase().replaceAll("\\s", "");
 			System.out.println();
-			System.out.println(usrIn);
+//			System.out.println(usrIn);
 			parseInput(usrIn);
 		}
 		System.out.println("Goodbye.");
@@ -153,8 +153,6 @@ public class Prog4 {
 				}
 				break;
 			case "D":
-				//System.out.print("Input: ");
-				//String usrInD = input.nextLine();
 				queries.executeQD();
 				break;
 			case "E":
