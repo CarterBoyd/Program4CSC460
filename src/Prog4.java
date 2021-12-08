@@ -1,23 +1,21 @@
+import java.sql.SQLException;
 import java.util.Scanner;
-import java.sql.*;
-import java.io.*;
 
-
-/*
-Authors: Raymond Rea, Carter Boyd
-Netids:  raymondprea
-Course: CSc 460
-Instructor: Dr. McCann, Justin Do, Sourav Mangla
-
-Purpose: This file provides the basic user interface of the application. The user is given a 
-series of options where they can select a query, or select to make manipulations to a relation in the 
-database. 
-
-Opperational requirements: A valid Oracle username and password. The JDBC driver needs to be in your classpath
-export CLASSPATH=/usr/lib/oracle/19.8/client64/lib/ojdbc8.jar:${CLASSPATH}.
-
-Known issues: As of 12/03/21 @ 1624, no known bugs
-*/
+/**
+ * Authors: Raymond Rea, Carter Boyd
+ * Netids:  raymondprea
+ * Course: CSc 460
+ * Instructor: Dr. McCann, Justin Do, Sourav Mangla
+ *
+ * Purpose: This file provides the basic user interface of the application. The user is given a
+ * series of options where they can select a query, or select to make manipulations to a relation in the
+ * database.
+ *
+ * Opperational requirements: A valid Oracle username and password. The JDBC driver needs to be in your classpath
+ * export CLASSPATH=/usr/lib/oracle/19.8/client64/lib/ojdbc8.jar:${CLASSPATH}.
+ *
+ * Known issues: As of 12/03/21 @ 1624, no known bugs
+ */
 public class Prog4 {
 
 	// ORACLEDB LOGIN DETAILS
@@ -39,13 +37,11 @@ public class Prog4 {
 	// contains queries and methods to execute queries
 	private static Queries queries = null;
 
-	/*
-	main establishes a connection to the database using a dbConnection object
-	and creates objects that will be used to manipulate the different tables
-
-	Params: args
-	Return: none
-	*/
+	/**
+	 * main establishes a connection to the database using a dbConnection object
+	 * and creates objects that will be used to manipulate the different tables
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 
 		if (args.length < 2) {
@@ -70,8 +66,8 @@ public class Prog4 {
 		// create objects to be used for manipulationg tables
 		apptMan = new ApptManipulation(input, dbConn);
 		deptMan = new DeptManipulation(input, dbConn);
-	emplMan = new EmployeeTuple(input, dbConn);
-	custMan = new CustomerManipulation(input, dbConn);
+		emplMan = new EmployeeTuple(input, dbConn);
+		custMan = new CustomerManipulation(input, dbConn);
 
 		displayMenu();     
 		getInput();
@@ -79,13 +75,10 @@ public class Prog4 {
 		dbConn.close();
 	}
 
-	/*
-	This method displays the different options to the users
-	and take their input choice
-
-	Params: none
-	Return: none
-	*/
+	/**
+	 * This method displays the different options to the users
+	 * and take their input choice
+	 */
 	public static void displayMenu() {
 		System.out.println();
 		System.out.println("Below are the different query options. Enter \"a\", \"b\", \"c\", \"d\", \"e\", \"f\", or \"change\"." +
@@ -104,32 +97,26 @@ public class Prog4 {
 		System.out.println("(g): Exit application.\n");
 	}
 
-	/*
-	This method loops to get user input until a user is ready to exit the
-	application
-
-	Params: none
-	Return: none
-	*/
+	/**
+	 * This method loops to get user input until a user is ready to exit the
+	 * application
+	 */
 	public static void getInput() {
 		String usrIn = "";
 		while (!usrIn.equals("G")) {
 			System.out.print("Option: ");
 			usrIn = input.nextLine().toUpperCase().replaceAll("\\s", "");
 			System.out.println();
-//			System.out.println(usrIn);
 			parseInput(usrIn);
 		}
 		System.out.println("Goodbye.");
 	}
 
-	/*
-	This method determines what action to take
-	depending on the user's input
-
-	Params: usrIn - the user's input option
-	Return: none
-	*/
+	/**
+	 * This method determines what action to take
+	 * depending on the user's input
+	 * @param usrIn the user's input option
+	 */
 	public static void parseInput(String usrIn) {
 		switch(usrIn) {
 			case "A":
@@ -207,14 +194,11 @@ public class Prog4 {
 		}
 	}
 
-	/*
-	This method gets the user's input so
-	it can be used to determine which
-	table needs to change and what the operation is.
-
-	Params: none
-	Return: none
-	*/
+	/**
+	 * This method gets the user's input so
+	 * it can be used to determine which
+	 * table needs to change and what the operation is.
+	 */
 	public static void changeTable() {
 		//TODO: need to add functionality for more tables
 		System.out.println("What table would you like to change? The options are: " +

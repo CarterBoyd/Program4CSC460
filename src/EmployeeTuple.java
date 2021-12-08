@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.*;
 import java.sql.*;
 
@@ -157,7 +156,7 @@ public class EmployeeTuple {
 		System.out.print("Please enter the new value: ");
 		String value = this.user_in.nextLine().toUpperCase();
 
-		String query = "";
+		String query;
 		query = updateEmployeeQuery.replace("<attr>", attr);
 
 		if (!(attr.equals("deptid") || attr.equals("salary") || (attr.equals("sex") && value.equals("NULL"))))
