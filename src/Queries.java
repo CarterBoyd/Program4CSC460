@@ -125,7 +125,7 @@ public class Queries {
         System.out.println("Please enter vehicle model: ");
         String d2 = scan.nextLine().toUpperCase();
         System.out.println();
-        String query = String.format("select LICENSENUMBER, FNAME, LNAME from KATUR.VEHICLE" +
+        String query = String.format("select LICENSENUMBER, FNAME, LNAME, address from KATUR.VEHICLE" +
                 "    join KATUR.DOCUMENT on DOCUMENT.DOCUMENTID = VEHICLE.DOCUMENTID" +
                 "    join KATUR.CUSTOMER on CUSTOMER.CUSTOMERID = DOCUMENT.CUSTOMERID" +
                 "    where MAKE = '%s'" +
