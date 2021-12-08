@@ -116,8 +116,10 @@ public class ApptManipulation {
 		// started yet
 		System.out.println("Was this transaction successful? (1 for yes, 0 for no)");
 		String successful = input.nextLine();
+		
 		while(!isZeroOrOne(successful))
 			successful = input.nextLine();
+		
 		System.out.println("EndTime: ");
 		String[] endResult = getDateFromUser();
 		String et = endResult[YEAR] + '-' + endResult[MONTH] + '-' + endResult[DAY];
@@ -135,7 +137,7 @@ public class ApptManipulation {
 		addStmt = addStmt.replace("<&>", et);
 		addStmt = addStmt.replace("<*>", type);
 
-		if (hasOverlaps(st, et, empID)) {
+		if (hasOverlaps(st, et, custID)) {
 			System.out.println("Overlap triggered");
 			return;
 		}
@@ -161,9 +163,10 @@ public class ApptManipulation {
 	private static boolean hasLicense(String custID, String st) {
 		String query = String.format("""
 				select * from KATUR.DOCUMENT
-				    where DEPTID = 1
+				    where DEPTID in (select a.deptid from katur.department a where a.deptName='LICENSE')
 				    and CUSTOMERID = '%s'
 				    and EXPIRYDATE > '%s'""", custID, st);
+		
 		try {
 			ResultSet results = dbConn.executeQuery(query);
 			return results.next();
@@ -181,20 +184,23 @@ public class ApptManipulation {
 	 *
 	 * @implNote this was created with minimal testing, this query will return results but someone verifies if this is how you will find overlaps
 	 */
-	private static boolean hasOverlaps(String startTime, String endTime, String empID) {
+	private static boolean hasOverlaps(String startTime, String endTime, String cusID) {
 		String query = String.format("""
 				select * from KATUR.APPTXACT
 				    where STARTTIME < TO_DATE('%s', 'YYYY MM DD')
 				    and ENDTIME > TO_DATE('%s', 'YYYY MM DD')
-				    and EMPLOYEEID = %s""", endTime, startTime, empID); //overlapping should be focussed on employee schedule, so here's a checker
+				    and CUSTOMERID = %s""", endTime, startTime, cusID); //overlapping should be focussed on employee schedule, so here's a checker
+		boolean toRet = true;
 		ResultSet results;
 		try {
 			results = dbConn.executeQuery(query);
-			return results.next();
+			results.next();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
+			toRet = false;
 		}
+		return toRet;
 	}
 
 	/**
