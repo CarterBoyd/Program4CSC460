@@ -137,7 +137,6 @@ public class ApptManipulation {
 		addStmt = addStmt.replace("<^>", successful);
 		addStmt = addStmt.replace("<&>", st);
 
-		/*
 		if (hasOverlaps(st, et, custID)) {
 			System.out.println("Overlap triggered");
 			return;
@@ -147,7 +146,6 @@ public class ApptManipulation {
 			System.out.println("Another License found");
 			return;
 		}
-		*/
 		System.out.println(addStmt);
 		dbConn.executeQuery(addStmt);
 		if (successful.equals("1"))
@@ -164,21 +162,25 @@ public class ApptManipulation {
 	 * have not tested yet!!!
 	 */
 	private static boolean hasLicense(String custID, String st) {
-		String query = String.format("select * from katur.document a, katur.apptxact b where a.customerid = %s and a.customerid = b.customerid and a.issuedate = b.starttime and b.type = 'LICENSE' and a.expirydate > TO_DATE('%s', 'YYYY-MM-DD')", custID, st);
+		String query = "select * from katur.document a, katur.department b " +
+						"where a.customerid = <somenumber> and a.deptid = b.deptid " +
+						"and b.deptname = 'LICENSE' and " +
+						"a.issuedate < TO_DATE('<someday>', 'YYYY-MM-DD') " +
+						"and a.expirydate > TO_DATE('<somedate>', 'YYYY-MM-DD')";
 		
-		/*
-		String query = String.format("""
-				select * from KATUR.DOCUMENT
-				    where DEPTID in (select a.deptid from katur.department a where a.deptName='LICENSE')
-				    and CUSTOMERID = '%s'
-				    and EXPIRYDATE > '%s'""", custID, st);
-		*/
+		query = query.replace("<somenumber>", custID);
+		query = query.replace("<somedate>", st);
+		query = query.replace("<someday>", st);
+		
+		boolean blah = true;
+	
 		try {
 			ResultSet results = dbConn.executeQuery(query);
-			return results.next();
+			results.next();
 		} catch (SQLException e) {
-			return false;
+			blah = false;
 		}
+		return blah;
 	}
 
 	/**
