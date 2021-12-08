@@ -31,7 +31,7 @@
 
        \vspace{1.5cm}
 
-       \textbf{Raymond Rea, Logan ..., Carter ..., Anthony ...}
+       \textbf{Raymond Rea, Logan Urfer, Carter Boyd, Anthony Lau}
 
        \vfill
             
@@ -46,7 +46,6 @@
 %\begin{document}
 
 \underline{Conceptual Database Design}\\
-\\
 \textbf{High-Level Description of Database Structure:} Our database uses the relational model. The relational model allows data to be stored into multiple relations and allows for queries to use foreign keys to access data stored in any relation.\\
 
 \textbf{User's Data Requirements:} Permits are valid for 1 year and cost \$7 to obtain. Licences are valid for 12 years and cost \$25. Vehicle registrations are valid for 1 year and cost \$100. State IDs are valid for 20 years and cost \$12. Dates in the relations are in the form of YYYY-MM-DD.
@@ -63,15 +62,41 @@
 
 \textbf{Vehicle}(DocumentID(\textbf{PK + FK}), LicencseNumber, Make, Model, RegisteredState)\\
 
-\textbf{ApptXact}(DeptID(\textbf{FK}), EmployeeID(\textbf{FK}), (CustomerID(\textbf{FK}, StartTime)(\textbf{PK}), Cost, Successful, EndTime, Type)\\
+\textbf{ApptXact}(DeptID(\textbf{FK}), EmployeeID(\textbf{FK}), (CustomerID(\textbf{FK}, StartTime)(\textbf{PK}), Cost, Successfully, EndTime, Type)\\
 
 \underline{Normalization Analysis}\\
 \\
-TBD
+\textbf{Employee FDs:}\\
+\{EmployeeID\} $\longrightarrow$ \{DeptID, FName, LName, Address, Salary, JobTitle, Sex\}\\
+\{Sex, JobTitle, Salary, Address, LName, FName, DeptID\} $\longrightarrow$ \{EmployeeID\}\\
+
+\textbf{Department FDs:}\\
+\{DeptID\} $\longrightarrow$ \{DeptName, DeptAddress, ServiceType, Active\}\\
+\{Active, ServiceType, DeptAddress, DeptName\} $\longrightarrow$ \{DeptID\}\\
+
+\textbf{Customer FDs:}\\
+\{CustomerID\} $\longrightarrow$ \{FName, LName, Address, Height, Sex, DOB\}\\
+%\{FName, LName, Address, Height, Sex, DOB\} $\longrightarrow$ \{CustomerID\}\\
+
+\textbf{Document FDs:}\\
+\{DocumentID\} $\longrightarrow$ \{DeptID, CustomerID, IssueDate, ExpiryDate\}\\
+
+\textbf{Vehicle FDs:}\\
+\{DocumentID\} $\longrightarrow$ \{LicenseNumber, Make, Model, RegisterdState\}\\
+\{LicenseNumber, Make, Model, RegisterdState\} $\longrightarrow$ \{DocumentID\}\\
+
+\textbf{ApptXact FDs:}\\
+\{CustomerID, StartTime\} $\longrightarrow$ \{DeptID, EmployeeID, Cost, Successfully, EndTime, Type\}\\
+\{DeptID, EmployeeID, Cost, Successfully, EndTime, Type\} $\longrightarrow$ \{CustomerID, StartTime\}
+
+None of the attributes in any of the relations are set-valued, therefore all of the relations are at least 1NF.\\
+
+In all of the relations all of the non-prime attributes are fully functionally dependent upon all of the candidate keys of their relation. This includes ApptXact where the only candidate key is also the primary key, which is composite. None of the attributes in ApptXact can only be determined by both the CustomerID and StartTime, therefore all of the relations are in 2NF.\\
+
+In Employee, Department, Customer and Vehicle all of the FDs satisfy conditions (a) and (b) of 3NF. All of the FDs of Document satisfy condition (a) of 3NF. Because the Type attribute of ApptXact is not dependent upon the primary key and can be obtained from the DeptID, ApptXact is not 3NF. 
 
 \underline{Query Description}\\
-\\ 
-TBD
+For query 4, we designed a query that gets the make and model of a vehicle from the user and returns license plate number and names of customers who are related to that make and model. It answers the question: given a make and model what are the license plate numbers and names of customers who own such a vehicle? This query could be used if there is a manufacturer recall on a vehicle and their owners need to be notified. 
 
 
 
