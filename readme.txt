@@ -1,5 +1,9 @@
-To run this program the TA will need to compile Prog4.java. When Prog4 is ran the user will need to provide their Oracle username and password as command line
-arguments, the user will then be presented with a text-base UI with multiple options. 
+To compile this program, run: javac Prog4.java
+The current directory will require dbConnection.java, EmployeeTuple.java, CustomerManipulation.java, ApptManipulation.java, DeptManipulation.java, and Queries.java in order to compile.
+You must also add the Oracle JDBC Driver to your classpath environment variable: export CLASSPATH=/usr/lib/oracle/19.8/client64/lib/ojdbc8.jar:${CLASSPATH}
+
+When running Prog4, the user will need to provide their Oracle Username as the first argument, and their Oracle Password as the second argument.
+The user will then be presented with a text-based UI that allows them to execute queries and manipulate tables in the Database.
 
 For this project the team utilized the agile workflow process, using GitHub project, each team member selected 
 the tasks/feature they wanted to work on. More specifically Raymond primarily worked on the UI. Logan worked on 
