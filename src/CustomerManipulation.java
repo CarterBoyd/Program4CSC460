@@ -113,15 +113,19 @@ public class CustomerManipulation {
 										"(SELECT d.documentid FROM katur.document d WHERE d.customerid=<#ID>)";
 		String deleteFromDocumentQuery = "DELETE FROM katur.document a WHERE a.customerid=<#ID>";		
 
+		// delete all vehicles associated with client
 		int vehiclesDeleted = this.conn.executeUpdate(deleteFromVehicleQuery.replace("<#ID>", customerID));
 		this.conn.commit();	
 
+		// delete all documents associated with customer
 		int documentsDeleted = this.conn.executeUpdate(deleteFromDocumentQuery.replace("<#ID>", customerID));
 		this.conn.commit();	
 
+		// delete all appointments associated with customer
 		int appointmentsDeleted = this.conn.executeUpdate(deleteFromDocumentQuery.replace("<#ID>", customerID));
 		this.conn.commit();	
 
+		// delete the customer
 		int customersDeleted = this.conn.executeUpdate(deleteCustomerSQL.replace("<#ID>", customerID));
 		this.conn.commit();	
 

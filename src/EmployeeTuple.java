@@ -101,8 +101,19 @@ public class EmployeeTuple {
 		System.out.print("Please enter the ID of the employee you are trying to delete: ");
 		String employeeID = grabAndValidateIntegerInput();
 
+		// ********* MIGHT NEED TO DELETE THIS *********
+		// because we might not want to delete apptxact
+		// might need to delete associated appointments
+		String deleteApptXact = "DELETE FROM katur.apptxact WHERE employeeid=<#ID>";
+		deleteApptXact = deleteApptXact.replace("<#ID>", employeeID);
+
+		int apptsDeleted = this.conn.executeUpdate(deleteApptXact);
+		this.conn.commit();
+		// *******************************************
+
 		int rowsEffected = this.conn.executeUpdate(deleteEmployeeSQL.replace("<#ID>", employeeID));
-		
+		this.conn.commit();
+				
 		if (rowsEffected == 0)
 			System.out.println("0 Employees deleted, maybe the EmployeeID doesn't exist?");
 		else	
