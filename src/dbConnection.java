@@ -110,14 +110,22 @@ public class dbConnection {
 						ResultSetMetaData rsmd = result.getMetaData();
 						// print column names
 						for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-							System.out.print(rsmd.getColumnName(i) + '\t');
+							if (i != rsmd.getColumnCount()) {
+								System.out.print(rsmd.getColumnName(i) + " - ");
+							} else {
+								System.out.print(rsmd.getColumnName(i));
+							}
 						}
 						System.out.println();
 
 						// printing out result tuples
 						while (result.next()) {
 							for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-								System.out.print(result.getString(i) + '\t');
+								if (i != rsmd.getColumnCount()) {
+									System.out.print(result.getString(i) + " - ");
+								} else {
+									System.out.print(result.getString(i));
+								}
 							}
                             System.out.println();
 						}
