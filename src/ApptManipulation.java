@@ -17,7 +17,7 @@ public class ApptManipulation {
 								"CustomerID = <@> AND StartTime = <#>";
 
 	private static String add = "INSERT INTO KATUR.ApptXact " +
-								"VALUES(<!>, TO_DATE('<@>', 'YYYY-MM-DD'), <#>, <$>, <%>, <^>, TO_DATE('<&>', 'YYYY-MM-DD'), '<*>')";
+								"VALUES(<!>, TO_DATE('<@>', 'YYYY-MM-DD'), <#>, <$>, <%>, <^>, TO_DATE('<&>', 'YYYY-MM-DD'))";
 
 	private static String update = "UPDATE KATUR.ApptXact " +
 								   "SET <@> = <#> WHERE CustomerId = <$> AND StartTime = <&>";
@@ -135,7 +135,6 @@ public class ApptManipulation {
 		addStmt = addStmt.replace("<%>", cost);
 		addStmt = addStmt.replace("<^>", successful);
 		addStmt = addStmt.replace("<&>", et);
-		addStmt = addStmt.replace("<*>", type);
 
 		if (hasOverlaps(st, et, custID)) {
 			System.out.println("Overlap triggered");
