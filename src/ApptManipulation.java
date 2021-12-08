@@ -226,7 +226,6 @@ public class ApptManipulation {
 		String query = String.format("INSERT INTO KATUR.DOCUMENT values " +
 									"(KATUR.SEQ_DOCUMENT.nextval, %s, %s," +
 									"TO_DATE('%s-%s-%s', 'YYYY-MM-DD'), TO_DATE('%s-%s-%s', 'YYYY-MM-DD'))", deptID, custID, results[YEAR], results[MONTH], results[DAY], year, results[MONTH], results[DAY]);
-		System.out.println(query);
 		dbConn.executeQuery(query);
 		if (type.equals("VEHICLE REGISTRATION"))
 			createVehicle();
