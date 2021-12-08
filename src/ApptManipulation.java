@@ -182,7 +182,6 @@ public class ApptManipulation {
 	/**
 	 * Designed to check if the selected appointment overlaps
 	 * @param startTime the start time of the appointment
-	 * @param endTime the end time of the appointment
 	 * @param cusID the id of the employee, other employees appointments shouldn't matter when looking for overlaps
 	 * @return true if there are overlaps, false if there are no overlaps
 	 *

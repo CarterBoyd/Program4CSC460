@@ -93,10 +93,11 @@ None of the attributes in any of the relations are set-valued, therefore all of 
 
 In all of the relations all of the non-prime attributes are fully functionally dependent upon all of the candidate keys of their relation. This includes ApptXact where the only candidate key is also the primary key, which is composite. None of the attributes in ApptXact can only be determined by both the CustomerID and StartTime, therefore all of the relations are in 2NF.\\
 
-In Employee, Department, Customer and Vehicle all of the FDs satisfy conditions (a) and (b) of 3NF. All of the FDs of Document satisfy condition (a) of 3NF. Because the Type attribute of ApptXact is not dependent upon the primary key and can be obtained from the DeptID, ApptXact is not 3NF. 
-
+In Employee, Department, Customer and Vehicle all of the FDs satisfy conditions (a) and (b) of 3NF. All of the FDs of Document and ApptXact satisfy condition (a) of 3NF.\\
+ 
 \underline{Query Description}\\
-For query 4, we designed a query that gets the make and model of a vehicle from the user and returns license plate number and names of customers who are related to that make and model. It answers the question: given a make and model what are the license plate numbers and names of customers who own such a vehicle? This query could be used if there is a manufacturer recall on a vehicle and their owners need to be notified. 
+For query 4, we designed a query that gets the make and model of a vehicle from the user and returns license plate number, names and addresses of customers who are related to that make and model. It answers the question: given a make and model what are the license plate numbers and names of customers who own such a vehicle?\\
+This query could be used to in a crime investigation where investigators may need to find customer information of a vehicle that was used in a crime, when given a description of a make and model. There is also the ability to send information to customers like promotional mail or recall information. The query can also provide statistics on the popularity of a certain car. 
 
 
 
