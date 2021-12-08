@@ -39,13 +39,15 @@ public class DeptManipulation {
 	*/
 	public static void deleteDept() {
 		System.out.println("--------------- Delete Department ---------------\n");
+		// instead of deleting, we will just set active to 0
 		System.out.println("DepartmentID: ");
 		String deptID = input.nextLine();
 		System.out.println();
 
 		// replacing values in delete statement
-		String delStmt = del.replace("<@>", deptID);
-		dbConn.executeQuery(delStmt);
+		//String delStmt = del.replace("<@>", deptID);
+		String updateStmt = update.replace("<@>", "active").replace("'<#>'", "0").replace("<&>", deptID);
+		dbConn.executeQuery(updateStmt);
 	}
 
 	/*
