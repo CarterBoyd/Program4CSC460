@@ -62,17 +62,17 @@
 
 \textbf{Vehicle}(DocumentID(\textbf{PK + FK}), LicencseNumber, Make, Model, RegisteredState)\\
 
-\textbf{ApptXact}(DeptID(\textbf{FK}), EmployeeID(\textbf{FK}), (CustomerID(\textbf{FK}, StartTime)(\textbf{PK}), Cost, Successfully, EndTime, Type)\\
+\textbf{ApptXact}(DeptID(\textbf{FK}), EmployeeID(\textbf{FK}), (CustomerID(\textbf{FK}, StartTime)(\textbf{PK}), Cost, Successfully, EndTimes)\\
 
 \underline{Normalization Analysis}\\
 \\
 \textbf{Employee FDs:}\\
 \{EmployeeID\} $\longrightarrow$ \{DeptID, FName, LName, Address, Salary, JobTitle, Sex\}\\
-\{Sex, JobTitle, Salary, Address, LName, FName, DeptID\} $\longrightarrow$ \{EmployeeID\}\\
+%\{Sex, JobTitle, Salary, Address, LName, FName, DeptID\} $\longrightarrow$ \{EmployeeID\}\\
 
 \textbf{Department FDs:}\\
 \{DeptID\} $\longrightarrow$ \{DeptName, DeptAddress, ServiceType, Active\}\\
-\{Active, ServiceType, DeptAddress, DeptName\} $\longrightarrow$ \{DeptID\}\\
+%\{Active, ServiceType, DeptAddress, DeptName\} $\longrightarrow$ \{DeptID\}\\
 
 \textbf{Customer FDs:}\\
 \{CustomerID\} $\longrightarrow$ \{FName, LName, Address, Height, Sex, DOB\}\\
@@ -83,11 +83,11 @@
 
 \textbf{Vehicle FDs:}\\
 \{DocumentID\} $\longrightarrow$ \{LicenseNumber, Make, Model, RegisterdState\}\\
-\{LicenseNumber, Make, Model, RegisterdState\} $\longrightarrow$ \{DocumentID\}\\
+%\{LicenseNumber, Make, Model, RegisterdState\} $\longrightarrow$ \{DocumentID\}\\
 
 \textbf{ApptXact FDs:}\\
-\{CustomerID, StartTime\} $\longrightarrow$ \{DeptID, EmployeeID, Cost, Successfully, EndTime, Type\}\\
-\{DeptID, EmployeeID, Cost, Successfully, EndTime, Type\} $\longrightarrow$ \{CustomerID, StartTime\}
+\{CustomerID, StartTime\} $\longrightarrow$ \{DeptID, EmployeeID, Cost, Successfully, EndTime\}\\
+%\{DeptID, EmployeeID, Cost, Successfully, EndTime, Type\} $\longrightarrow$ \{CustomerID, StartTime\}
 
 None of the attributes in any of the relations are set-valued, therefore all of the relations are at least 1NF.\\
 
