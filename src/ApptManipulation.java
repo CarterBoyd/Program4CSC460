@@ -105,7 +105,7 @@ public class ApptManipulation {
 		String cost = "";
 		switch (type) {
 			case "PERMIT" -> cost = "7";
-			case "LICENSE NUMBER" -> cost = "25";
+			case "LICENSE" -> cost = "25";
 			case "STATE ID" -> cost = "100";
 			case "VEHICLE REGISTRATION" -> cost = "12";
 		}
@@ -120,11 +120,12 @@ public class ApptManipulation {
 		while(!isZeroOrOne(successful))
 			successful = input.nextLine();
 		
+		/*
 		System.out.println("EndTime: ");
 		String[] endResult = getDateFromUser();
 		String et = endResult[YEAR] + '-' + endResult[MONTH] + '-' + endResult[DAY];
 		System.out.println();
-
+		*/
 
 	
 		// replacing values in add statement
@@ -134,16 +135,19 @@ public class ApptManipulation {
 		addStmt = addStmt.replace("<@>", st);
 		addStmt = addStmt.replace("<%>", cost);
 		addStmt = addStmt.replace("<^>", successful);
-		addStmt = addStmt.replace("<&>", et);
+		addStmt = addStmt.replace("<&>", st);
 
+		/*
 		if (hasOverlaps(st, et, custID)) {
 			System.out.println("Overlap triggered");
 			return;
 		}
+		
 		if (deptID.equals("1") && hasLicense(custID, st)) {
 			System.out.println("Another License found");
 			return;
 		}
+		*/
 		System.out.println(addStmt);
 		dbConn.executeQuery(addStmt);
 		if (successful.equals("1"))
@@ -160,12 +164,15 @@ public class ApptManipulation {
 	 * have not tested yet!!!
 	 */
 	private static boolean hasLicense(String custID, String st) {
+		String query = String.format("select * from katur.document a, katur.apptxact b where a.customerid = %s and a.customerid = b.customerid and a.issuedate = b.starttime and b.type = 'LICENSE' and a.expirydate > TO_DATE('%s', 'YYYY-MM-DD')", custID, st);
+		
+		/*
 		String query = String.format("""
 				select * from KATUR.DOCUMENT
 				    where DEPTID in (select a.deptid from katur.department a where a.deptName='LICENSE')
 				    and CUSTOMERID = '%s'
 				    and EXPIRYDATE > '%s'""", custID, st);
-		
+		*/
 		try {
 			ResultSet results = dbConn.executeQuery(query);
 			return results.next();
