@@ -74,6 +74,10 @@ public class DeptManipulation {
 
 		System.out.println("Active (0-False, 1-True): ");
 		String active = input.nextLine();
+		while (!(active.equals("1") || active.equals("0"))) {
+			System.out.println("Bad active input! Must be 0 or 1.");
+			active = input.nextLine();
+		}
 		System.out.println();
 
 		// replacing values in add statement
@@ -115,15 +119,20 @@ public class DeptManipulation {
 
 		String updateStmt = update.replace("<@>", changeAttr);
 
-		if (changeAttr.toLowerCase().equals("active")) 
+		if (changeAttr.toLowerCase().equals("active")) {
+			while (!(newVal.equals("0") || newVal.equals("1"))) {
+				System.out.println("Value must be 0 or 1!");
+				newVal = input.nextLine().toUpperCase();
+			}
+
 			updateStmt = updateStmt.replace("'<#>'", newVal);
-		else
+		} else
 			updateStmt = updateStmt.replace("<#>", newVal);
 
 		updateStmt = updateStmt.replace("<&>", deptID);
 
 		if (dbConn.executeQuery(updateStmt) == null) {
-			System.out.println("\n Query didn't work, make sure you entered a correct attribute name.");
+			System.out.println("\n Query didn't work, make sure you entered an correct attribute name.");
 		}
    }
 }

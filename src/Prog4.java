@@ -75,6 +75,7 @@ public class Prog4 {
 
 		displayMenu();     
 		getInput();
+		dbConn.closeStatement();
 		dbConn.close();
 	}
 
