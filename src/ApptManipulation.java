@@ -127,6 +127,10 @@ public class ApptManipulation {
 		System.out.println();
 		*/
 
+		if (successful.equals("1") && (hasOverlaps(st, custID) || hasLicense(custID, st))) {
+			System.out.println("Overlap triggered");
+			successful = "0";
+		}
 	
 		// replacing values in add statement
 		String addStmt = add.replace("<$>", deptID);
@@ -137,17 +141,9 @@ public class ApptManipulation {
 		addStmt = addStmt.replace("<^>", successful);
 		addStmt = addStmt.replace("<&>", st);
 
-		if (hasOverlaps(st, et, custID)) {
-			System.out.println("Overlap triggered");
-			return;
-		}
-		
-		if (deptID.equals("1") && hasLicense(custID, st)) {
-			System.out.println("Another License found");
-			return;
-		}
 		System.out.println(addStmt);
 		dbConn.executeQuery(addStmt);
+
 		if (successful.equals("1"))
 			createDocument(results, deptID, custID, type);
 	}
@@ -192,12 +188,12 @@ public class ApptManipulation {
 	 *
 	 * @implNote this was created with minimal testing, this query will return results but someone verifies if this is how you will find overlaps
 	 */
-	private static boolean hasOverlaps(String startTime, String endTime, String cusID) {
-		String query = String.format("""
-				select * from KATUR.APPTXACT
-				    where STARTTIME < TO_DATE('%s', 'YYYY MM DD')
-				    and ENDTIME > TO_DATE('%s', 'YYYY MM DD')
-				    and CUSTOMERID = %s""", endTime, startTime, cusID); //overlapping should be focussed on employee schedule, so here's a checker
+	private static boolean hasOverlaps(String startTime, String cusID) {
+		String query = "SELECT * from katur.apptxact a where a.customerid=<#ID> and a.starttime=TO_DATE('<date>', 'YYYY-MM-DD')";
+		query = query.replace("<#ID>", cusID);
+		query = query.replace("<date>", startTime);
+
+		
 		boolean toRet = true;
 		ResultSet results;
 		try {
