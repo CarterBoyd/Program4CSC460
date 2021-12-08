@@ -23,13 +23,12 @@ public class Queries {
         this.dbConn = dbConn;
     }
 
-    /*
-    This method utilizes a db connection and an input
-    date to execute query a
-
-    Params: date - in the form of MM/DD/YYYY
-    Return: none
-    */
+    /**
+     * This method utilizes a db connection and an input
+     * date to execute query a, being a query that displays the user details whose documents
+     * will expire on a date given by the user.
+     * @param dateStr date - in the form of MM/DD/YYYY
+     */
     public static void executeQA(String dateStr) {
         String[] date;
         if (dateStr.contains("/")) {
@@ -41,10 +40,10 @@ public class Queries {
                 date[1].length() == 2 && date[2].length() == 4 && 
                 dateValidator(date)) {
                 String dateString = date[2] + '-' + date[0] + '-' + date[1];
-                String query = "select b.CustomerID, b.FName, b.LName, a.issuedate, a.expirydate, c.type from " +
-                        "katur.document a, katur.customer b, katur.apptxact c " +
-                        "where a.customerid = b.customerid and a.customerid = c.customerid " +
-                        "and a.issuedate = c.starttime and a.expirydate = TO_DATE('<date>', 'YYYY-MM-DD')";
+                String query = "select b.CustomerID, b.FName, b.LName, a.issuedate, a.expirydate, c.deptname from " +
+                        "katur.document a, katur.customer b, katur.department c " +
+                        "where a.customerid = b.customerid and a.deptid = c.deptid " +
+                        "and a.expirydate = TO_DATE('<date>', 'YYYY-MM-DD')";
                 query = query.replace("<date>", dateString);
 				dbConn.executeQueryAndPrint(query);
             } else {
@@ -63,6 +62,12 @@ public class Queries {
     Params: none
     Return: none
     */
+
+    /**
+     * This method utilizes a db connection to execute
+     * query b
+     * @throws SQLException
+     */
     public static void executeQB() throws SQLException {
         String query = "select b.deptname as \"IDType\", sum(case when a.successfully > '0' then 1 else 0 end)" +
                 " as \"Successful\", count(*) as \"Total\" from katur.apptxact a, katur.department b where a.starttime " +
