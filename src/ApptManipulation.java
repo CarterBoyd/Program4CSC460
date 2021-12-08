@@ -2,15 +2,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-/*
-Author: Raymond Rea
-Netid:  raymondprea
-
-Purpose: This file is used to perform database manipulations on 
-the AppointmentTransaction database. This file allows the user 
-to add a tuple to the database, delete a tuple, or change 
-values of a tuple in the database. 
-*/
+/**
+ * Purpose: This file is used to perform database manipulations on
+ * the AppointmentTransaction database. This file allows the user
+ * to add a tuple to the database, delete a tuple, or change
+ * values of a tuple in the database.
+ * Author: Raymond Rea
+ * Netid:  raymondprea
+ */
 public class ApptManipulation {
 
 	private static String del = "DELETE FROM KATUR.ApptXact WHERE " +
@@ -21,19 +20,9 @@ public class ApptManipulation {
 
 	private static String update = "UPDATE KATUR.ApptXact " +
 								   "SET <@> = <#> WHERE CustomerId = <$> AND StartTime = <&>";
-	private static String overlapCheck = "SELECT COUNT(*) FROM KATUR.ApptXact a " +
-										 "WHERE a.EndTime = TO_DATE('<date>', 'YYYY/MM/DD HH24:MI')" +
-										 "AND a.CustomerID = <custid> AND ";
 	private static final int YEAR = 0;
 	private static final int MONTH = 1;
 	private static final int DAY = 2;
-
-	private static final String EMPLOYEE_SEARCH = """
-			Select count(*) from katur.apptxact where
-				(STARTTIME > TO_DATE('<startdate>',  'YYYY/MM/DD HH:MI') AND STARTTIME < TO_DATE('<enddate>', 'YYYY/MM/DD HH24:MI')
-					OR
-				(ENDTIME < TO_DATE('<enddate>', 'YYYY/MM/DD HH:MI') AND ENDTIME > (TO_DATE('<startdate>', 'YYYY/MM/DD HH24:MI'))
-					AND CUSTOMERID = <ID>""";
 
 	private static Scanner input = null;
 	private static dbConnection dbConn = null;
@@ -50,13 +39,10 @@ public class ApptManipulation {
 		this.dbConn = dbConn;
 	}
 
-	/*
-	This method uses the provided parameters to remove a
-	paticular tuple from the ApptXAct table.
-
-	Params: none
-	Return: none
-	*/
+	/**
+	 * This method uses the provided parameters to remove a
+	 * particular tuple from the ApptXAct table.
+	 */
 	public static void deleteAppt() {
 		System.out.println("--------------- Delete Appointment ---------------\n");
 
@@ -74,13 +60,10 @@ public class ApptManipulation {
 		dbConn.executeQuery(delStmt);
 	}
 
-	/*
-	This method uses the provided parameters to insert a tuple
-	into the ApptXAct table.
-
-	Params: none
-	Return: none
-	*/
+	/**
+	 * This method uses the provided parameters to insert a tuple
+	 * into the ApptXAct table.
+	 */
 	public static void addAppt() {
 		System.out.println("--------------- Add Appointment ---------------\n");
 
@@ -119,13 +102,6 @@ public class ApptManipulation {
 		
 		while(!isZeroOrOne(successful))
 			successful = input.nextLine();
-		
-		/*
-		System.out.println("EndTime: ");
-		String[] endResult = getDateFromUser();
-		String et = endResult[YEAR] + '-' + endResult[MONTH] + '-' + endResult[DAY];
-		System.out.println();
-		*/
 
 		if (successful.equals("1") && (hasOverlaps(st, custID) || hasLicense(custID, st))) {
 			System.out.println("Overlap triggered");
@@ -167,7 +143,7 @@ public class ApptManipulation {
 		query = query.replace("<somedate>", st);
 		query = query.replace("<someday>", st);
 
-		ResultSet results = dbConn.executeQuery(query);;
+		ResultSet results = dbConn.executeQuery(query);
 		try {
 			return results.next();
 		} catch (SQLException e) {
@@ -190,7 +166,7 @@ public class ApptManipulation {
 		query = query.replace("<date>", startTime);
 
 
-		ResultSet results = dbConn.executeQuery(query);;
+		ResultSet results = dbConn.executeQuery(query);
 		try {
 			return results.next();
 		} catch (SQLException e) {
@@ -207,22 +183,13 @@ public class ApptManipulation {
 	 * @param type the type
 	 */
 	private static void createDocument(String[] results, String deptID, String custID, String type) {
-		String year = null;
-		
-		switch (type) {
-						case "VEHICLE REGISTRATION":
-							year = String.valueOf(Integer.parseInt(results[YEAR]) + 1);
-							break;
-			case "PERMIT":
-							year = String.valueOf(Integer.parseInt(results[YEAR]) + 1);
-							break;
-			case "LICENSE": 
-							year = String.valueOf(Integer.parseInt(results[YEAR]) + 12);
-							break;
-			case "STATE ID": 
-							year = String.valueOf(Integer.parseInt(results[YEAR]) + 20);
-							break;
-		}
+		String year = switch (type) {
+			case "VEHICLE REGISTRATION", "PERMIT" -> String.valueOf(Integer.parseInt(results[YEAR]) + 1);
+			case "LICENSE" -> String.valueOf(Integer.parseInt(results[YEAR]) + 12);
+			case "STATE ID" -> String.valueOf(Integer.parseInt(results[YEAR]) + 20);
+			default -> null;
+		};
+
 		String query = String.format("INSERT INTO KATUR.DOCUMENT values " +
 									"(KATUR.SEQ_DOCUMENT.nextval, %s, %s," +
 									"TO_DATE('%s-%s-%s', 'YYYY-MM-DD'), TO_DATE('%s-%s-%s', 'YYYY-MM-DD'))", deptID, custID, results[YEAR], results[MONTH], results[DAY], year, results[MONTH], results[DAY]);
@@ -231,38 +198,51 @@ public class ApptManipulation {
 			createVehicle();
 	}
 
-		private static void createVehicle() {
-				String query = "INSERT INTO KATUR.VEHICLE VALUES(KATUR.SEQ_DOCUMENT.currval, '<liscence#>', '<make>', '<model>', '<state>')";
+	/**
+	 * Inserts a vehicle into the vehicles table when a vehicle registration has been added to documents.
+	 */
+	private static void createVehicle() {
+		String query = "INSERT INTO KATUR.VEHICLE VALUES(KATUR.SEQ_DOCUMENT.currval, '<liscence#>', '<make>', '<model>', '<state>')";
 
-				System.out.println("------------- Add Vehicle -------------");
-				System.out.print("License Number: ");
-				String lNum = input.nextLine();
-				System.out.println();
+		System.out.println("------------- Add Vehicle -------------");
+		System.out.print("License Number: ");
+		String lNum = input.nextLine();
+		System.out.println();
 
-				System.out.print("Make: ");
-				String make = input.nextLine().toUpperCase();
-				System.out.println();
+		System.out.print("Make: ");
+		String make = input.nextLine().toUpperCase();
+		System.out.println();
 
-				System.out.print("Model: ");
-				String model = input.nextLine().toUpperCase();
-				System.out.println();
+		System.out.print("Model: ");
+		String model = input.nextLine().toUpperCase();
+		System.out.println();
 
-				System.out.print("State: ");
-				String state = input.nextLine().toUpperCase();
-				System.out.println();
+		System.out.print("State: ");
+		String state = input.nextLine().toUpperCase();
+		System.out.println();
 
-				query = query.replace("<liscence#>", lNum);
-				query = query.replace("<make>", make);
-				query = query.replace("<model>", model);
-				query = query.replace("<state>", state);
+		query = query.replace("<liscence#>", lNum);
+		query = query.replace("<make>", make);
+		query = query.replace("<model>", model);
+		query = query.replace("<state>", state);
 
-				dbConn.executeQuery(query);
-		}
+		dbConn.executeQuery(query);
+	}
 
+	/**
+	 * Checks if the string provided is a simple 0 or 1 value
+	 * @param successful, the string to check
+	 * @return is a 0 or 1 boolean/binary value
+	 */
 	private static boolean isZeroOrOne(String successful) {
 		return successful.equals("0") || successful.equals("1");
 	}
 
+	/**
+	 * Returns the String name of a department, a.k.a. the type of service it renders.
+	 * @param deptID, the department id to check against.
+	 * @return the department name
+	 */
 	private static String getType(String deptID) {
 		ResultSet result = dbConn.executeQuery("select DEPTNAME from katur.DEPARTMENT" +
 				" where DEPTID = " + deptID);
@@ -274,11 +254,10 @@ public class ApptManipulation {
 		}
 	}
 
-	/*
-	select DEPTNAME from katur.DEPARTMENT
-	where DEPTID = deptID
+	/**
+	 * converts a user provided array of date values into a valid date format
+	 * @return string in a valid date format
 	 */
-
 	public static String[] getDateFromUser() {
 		String[] dateArr = new String[5];
 
@@ -290,24 +269,18 @@ public class ApptManipulation {
 
 		System.out.print("Day (DD): ");
 		String day = grabAndValidateNumericInput(2);
-
-		/*
-		System.out.print("Hour (HH): ");
-		String hour = grabAndValidateNumericInput(2);
-
-		System.out.print("Minute (MM): ");
-		String minute = grabAndValidateNumericInput(2);
-
-		*/
 		dateArr[YEAR] = year;
 		dateArr[MONTH] = month;
 		dateArr[DAY] = day;
-		//dateArr[3] = hour;
-		//dateArr[4] = minute;
 
 		return dateArr;
 	}
 
+	/**
+	 * validates that a user input is a numeric value for a given length.
+	 * @param length length of input to check against.
+	 * @return the user input after validation.
+	 */
 	public static String grabAndValidateNumericInput(int length) {
 		String userInput = input.nextLine();
 		while (userInput.length() != length || checkIfNumeric(userInput) == -1) {
@@ -318,6 +291,11 @@ public class ApptManipulation {
 		return userInput;
 	}
 
+	/**
+	 * Checks if a string is made up of numeric values
+	 * @param input string to check against
+	 * @return integer value of string, else -1.
+	 */
 	public static int checkIfNumeric(String input) {
 		try {
 			return Integer.parseInt(input);
@@ -326,16 +304,13 @@ public class ApptManipulation {
 		}
 	}
 
-	/*
-	This method prompts the user for the primary key of the
-	tuple they want to change, it then asks the user for
-	the attribute they want to change and what the new value
-	should be. The method then uses a database connection to
-	attempt the update
-
-	Params: none
-	Return: none
-	*/
+	/**
+	 * This method prompts the user for the primary key of the
+	 * tuple they want to change, it then asks the user for
+	 * the attribute they want to change and what the new value
+	 * should be. The method then uses a database connection to
+	 * attempt the update
+	 */
 	public static void updateAppt() {
 		System.out.println("--------------- Update Appointment ---------------\n");
 
