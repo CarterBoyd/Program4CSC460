@@ -167,16 +167,14 @@ public class ApptManipulation {
 		query = query.replace("<somenumber>", custID);
 		query = query.replace("<somedate>", st);
 		query = query.replace("<someday>", st);
-		
-		boolean blah = true;
-	
+
+		ResultSet results = dbConn.executeQuery(query);;
 		try {
-			ResultSet results = dbConn.executeQuery(query);
-			results.next();
+			return results.next();
 		} catch (SQLException e) {
-			blah = false;
+			e.printStackTrace();
 		}
-		return blah;
+		return false;
 	}
 
 	/**
@@ -192,18 +190,14 @@ public class ApptManipulation {
 		query = query.replace("<#ID>", cusID);
 		query = query.replace("<date>", startTime);
 
-		
-		boolean toRet = true;
-		ResultSet results;
+
+		ResultSet results = dbConn.executeQuery(query);;
 		try {
-			results = dbConn.executeQuery(query);
-			results.next();
-			
+			return results.next();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			toRet = false;
 		}
-		return toRet;
+		return false;
 	}
 
 	/**
