@@ -241,15 +241,15 @@ public class ApptManipulation {
 				System.out.println();
 
 				System.out.print("Make: ");
-				String make = input.nextLine();
+				String make = input.nextLine().toUpperCase();
 				System.out.println();
 
 				System.out.print("Model: ");
-				String model = input.nextLine();
+				String model = input.nextLine().toUpperCase();
 				System.out.println();
 
 				System.out.print("State: ");
-				String state = input.nextLine();
+				String state = input.nextLine().toUpperCase();
 				System.out.println();
 
 				query = query.replace("<liscence#>", lNum);
