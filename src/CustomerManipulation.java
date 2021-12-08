@@ -122,7 +122,7 @@ public class CustomerManipulation {
 		this.conn.commit();	
 
 		// delete all appointments associated with customer
-		int appointmentsDeleted = this.conn.executeUpdate(deleteFromDocumentQuery.replace("<#ID>", customerID));
+		int appointmentsDeleted = this.conn.executeUpdate(deleteFromXactApptQuery.replace("<#ID>", customerID));
 		this.conn.commit();	
 
 		// delete the customer
