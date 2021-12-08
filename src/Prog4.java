@@ -136,6 +136,7 @@ public class Prog4 {
 				System.out.print("Date (MM/DD/YYYY): ");
 				String dateA = input.nextLine();
 				queries.executeQA(dateA);
+				
 				break;
 			case "B":
 				try {
