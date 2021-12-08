@@ -1,22 +1,12 @@
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.YearMonth;
 import java.util.Scanner;
 
-/*
-This class is used to store the four required queries as strings.
-This class uses a dbConnection object to execute the queries 
-*/
+/**
+ * This class is used to store the four required queries as strings.
+ * This class uses a dbConnection object to execute the queries
+ */
 public class Queries {
-    // the four required queries
-    private static final String qA = "";
-    private static final String qB = "";
-    private static final String qC = "";
-    private static final String qD = "";
-    private static PreparedStatement ps = null;
-
     private static dbConnection dbConn = null;
 
     Queries(dbConnection dbConn) {
@@ -55,18 +45,11 @@ public class Queries {
         }
     }
 
-    /*
-    This method utilizes a db connection to execute 
-    query b
-
-    Params: none
-    Return: none
-    */
-
     /**
      * This method utilizes a db connection to execute
-     * query b
-     * @throws SQLException
+     * query b, which is to display the total amount of appointments and the successful number thereof
+     * for the month previous to the current date.
+     * @throws SQLException for unsuccessful query that throws an error.
      */
     public static void executeQB() throws SQLException {
         String query = "select b.deptname as \"IDType\", sum(case when a.successfully > '0' then 1 else 0 end)" +
@@ -78,13 +61,13 @@ public class Queries {
         dbConn.executeQueryAndPrint(query);
     }
 
-    /*
-    This method utilizes a db connection and an input
-    date to execute query c
-
-    Params: date - in the form of MM/YYYY
-    Return: none
-    */
+    /**
+     * This method utilizes a db connection and an input
+     * date to execute query c, which is to display to total collected fee amount for each department for a given month
+     * in format MM/YYYY and display the department information and the sum in descending order.
+     * @param dateStr, a date given in format MM/YYYY
+     * @throws SQLException for unsuccessful query that throws an error.
+     */
     public static void executeQC(String dateStr) throws SQLException {
         String[] date;
         if (dateStr.contains("/")) {
@@ -116,13 +99,11 @@ public class Queries {
         }
     }
 
-    /*
-    This method utilizes a db connection and user input
-    date to execute query d
-
-    Params: TODO
-    Return: none
-    */
+    /**
+     * This method utilizes a db connection and user input
+     * date to execute query d, which is to obtain all users that own a vehicle make and model given by
+     * the user and display their vehicle's license number, their name, and their address.
+     */
     public static void executeQD() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter vehicle make: ");
@@ -138,26 +119,21 @@ public class Queries {
         dbConn.executeQueryAndPrint(query);
     }
 
-    /*
-    This method checks a given date, broken up into an array
-    and checks if each part of the date is a numeric value
-
-    Params: date - a String array containig different parts of the
-    date
-    Return: true, if the whole date is numeric. Otherwise, false
-    */
+    /**
+     * This method checks a given date, broken up into an array
+     * and checks if each part of the date is a numeric value
+     * @param date, date - a String array containig different parts of the date
+     * @return true, if the whole date is numeric. Otherwise, false
+     */
     private static boolean dateValidator(String[] date) {
-
-        //System.out.println("[" + date[0] + ", " + date[1] + ", " + date[2] + "]"); 
         // iterating through the different elements of the date
         for (int i = 0; i < date.length; i++) {
-            // if any given element in the date is not numeric, 
+            // if any given element in the date is not numeric,
             // return false
             try {
                 int dateElement = Integer.parseInt(date[i]);
                 if (dateElement < 0) {return false;}
             } catch (NumberFormatException e) {
-                //System.out.println("date failed");
                 return false;
             }
         }
