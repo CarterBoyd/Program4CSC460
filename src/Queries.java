@@ -64,9 +64,10 @@ public class Queries {
     Return: none
     */
     public static void executeQB() throws SQLException {
-        String query = "select type as \"IDType\", sum(case when successfully > '0' then 1 else 0 end) as " +
-                "\"Successful\", count(*) as \"Total\" from katur.apptxact where starttime >= " +
-                "TO_DATE('<from>', 'YYYY-MM-DD') and starttime <= TO_DATE('<to>', 'YYYY-MM-DD') group by type";
+        String query = "select b.deptname as \"IDType\", sum(case when a.successfully > '0' then 1 else 0 end)" +
+                " as \"Successful\", count(*) as \"Total\" from katur.apptxact a, katur.department b where a.starttime " +
+                ">= TO_DATE('<from>', 'YYYY-MM-DD') and a.starttime <= TO_DATE('<to>', 'YYYY-MM-DD') and a." +
+                "deptid = b.deptid group by b.deptname";
         query = query.replace("<from>", YearMonth.now().minusMonths(1).atDay(1).toString());
         query = query.replace("<to>", YearMonth.now().minusMonths(1).atEndOfMonth().toString());
         dbConn.executeQueryAndPrint(query);
