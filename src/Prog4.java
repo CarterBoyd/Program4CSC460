@@ -75,6 +75,7 @@ public class Prog4 {
 
 		displayMenu();     
 		getInput();
+		dbConn.closeStatement();
 		dbConn.close();
 	}
 
@@ -99,8 +100,8 @@ public class Prog4 {
 		"(Provide a date in the format of MM/YYYY)\n");
 		System.out.println("(d): What are the license numbers and names of owners, given a certain vehicle make and model?\n");
 		System.out.println("(e): Display this message again.\n");
-		System.out.println("(f): Exit application.\n");
-		System.out.println("(g): Update a row in a table/Delete a row from a table/Add a row to a table.\n");
+		System.out.println("(f): Update a row in a table/Delete a row from a table/Add a row to a table.\n");
+		System.out.println("(g): Exit application.\n");
 	}
 
 	/*
@@ -112,7 +113,7 @@ public class Prog4 {
 	*/
 	public static void getInput() {
 		String usrIn = "";
-		while (!usrIn.equals("F")) {
+		while (!usrIn.equals("G")) {
 			System.out.print("Option: ");
 			usrIn = input.nextLine().toUpperCase().replaceAll("\\s", "");
 			System.out.println();
@@ -158,9 +159,9 @@ public class Prog4 {
 			case "E":
 				displayMenu();
 				break;
-			case "F":
-				break;
 			case "G":
+				break;
+			case "F":
 				changeTable();
 				break;
 			case "APPOINTMENTTRANSACTION ADD":
