@@ -79,8 +79,14 @@ public class EmployeeTuple {
 		String sex = grabAndValidateSexInput().toUpperCase();
 		
 		String query = addEmployeeSQL.replace("<deptID>", deptID).replace("<fName>", fName).replace("<lName>", lName).replace("<address>", address);
-		query = query.replace("<jobTitle>", jobTitle).replace("<salary>", salary).replace("<sex>", sex);
+		query = query.replace("<jobTitle>", jobTitle).replace("<salary>", salary);
 		
+		if (sex.equals("NULL")) {
+			query = query.replace("'<sex>'", sex);
+		} else
+			query = query.replace("<sex>", sex);
+		
+	
 		int rowsEffected = this.conn.executeUpdate(query);
 		System.out.println(rowsEffected + " Employee added!");
 	}
@@ -120,20 +126,19 @@ public class EmployeeTuple {
 			if (!employee.next()) {
 				System.out.println("No Employee exists with that ID!");
 				return;
-			} else
-				System.out.println("Employee exists");
+			} 
 		} catch (SQLException e) {
 			System.out.println("L Bruh: Line 92 EmployeeTuple");
 			return;
 		}
 
 		// Allow user to select from options
-		System.out.println("Attributes available to change: DeptID, FName, LName, Address, Salary, JobTitle");
+		System.out.println("Attributes available to change: DeptID, FName, LName, Address, Salary, JobTitle, sex");
 		System.out.print("Please select the attribute you would like to change: ");
 		String attr = this.user_in.nextLine().toLowerCase();
 
 		// if the attribute name is invalid, then ask to repeat
-		while (!(attr.equals("deptid") || attr.equals("fname") || attr.equals("lname") || attr.equals("address") || attr.equals("salary") || attr.equals("jobtitle"))) {
+		while (!(attr.equals("deptid") || attr.equals("fname") || attr.equals("lname") || attr.equals("sex") || attr.equals("address") || attr.equals("salary") || attr.equals("jobtitle"))) {
 			System.out.println("The attribute selected does not exist! Please try again.");
 			attr = this.user_in.nextLine().toLowerCase();
 		}
@@ -144,10 +149,12 @@ public class EmployeeTuple {
 		String query = "";
 		query = updateEmployeeQuery.replace("<attr>", attr);
 
-		if (!(attr.equals("deptid") || attr.equals("salary")))
+		if (!(attr.equals("deptid") || attr.equals("salary") || (attr.equals("sex") && value.equals("NULL"))))
 			query = query.replace("<newval>", value);
 		else
 			query = query.replace("'<newval>'", value);
+	
+		System.out.println(query);
 
 		query = query.replace("<#ID>", employeeID);
 

@@ -152,4 +152,22 @@ public class dbConnection {
 	public Connection getConn() {
 		return db_conn;
 	}
+
+	public void commit() {
+		try{
+			this.db_conn.commit();
+		} catch (SQLException e) {
+
+		}
+	
+	}
+
+	public void closeStatement() {
+		try {
+			this.stmt.close();
+		} catch (SQLException e) {
+			System.out.println("Unable to close statement");
+		}
+
+	}
 }

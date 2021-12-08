@@ -81,6 +81,7 @@ public class CustomerManipulation {
 		String query = addCustomerSQL.replace("<fName>", fName);
 		query = query.replace("<lName>", lName);
 		query = query.replace("<addr>", address);
+		
 		query = query.replace("<height>", height);
 		
 		if (sex.equals("NULL"))
@@ -102,15 +103,32 @@ public class CustomerManipulation {
 	*
 	*/
 	public void deleteCustomer() {
+		// since a Need to delete customer ID from apptxact, Document, and then that documents associated vehicle registration
+
 		System.out.print("Please enter the ID of the customer you are trying to delete: ");
 		String customerID = grabAndValidateIntegerInput(1, 10);
 		
-		int rowsEffected = this.conn.executeUpdate(deleteCustomerSQL.replace("<#ID>", customerID));
-		
-		if (rowsEffected == 0)
+		String deleteFromXactApptQuery = "DELETE FROM katur.apptxact WHERE CustomerID=<#ID>";
+		String deleteFromVehicleQuery = "DELETE FROM katur.vehicle where katur.vehicle.documentid in " +
+										"(SELECT d.documentid FROM katur.document d WHERE d.customerid=<#ID>)";
+		String deleteFromDocumentQuery = "DELETE FROM katur.document a WHERE a.customerid=<#ID>";		
+
+		int vehiclesDeleted = this.conn.executeUpdate(deleteFromVehicleQuery.replace("<#ID>", customerID));
+		this.conn.commit();	
+
+		int documentsDeleted = this.conn.executeUpdate(deleteFromDocumentQuery.replace("<#ID>", customerID));
+		this.conn.commit();	
+
+		int appointmentsDeleted = this.conn.executeUpdate(deleteFromDocumentQuery.replace("<#ID>", customerID));
+		this.conn.commit();	
+
+		int customersDeleted = this.conn.executeUpdate(deleteCustomerSQL.replace("<#ID>", customerID));
+		this.conn.commit();	
+
+		if (customersDeleted == 0)
 			System.out.println("0 Customers deleted, maybe the CustomerID doesn't exist?");
 		else
-			System.out.println(rowsEffected + " Employee deleted.");
+			System.out.println(customersDeleted + " customer deleted.");
 	}
 	
 	/**
