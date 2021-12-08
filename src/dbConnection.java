@@ -91,20 +91,17 @@ public class dbConnection {
 		try {
 			result = this.stmt.executeQuery(query);
 		} catch (SQLException e) {
-			/*
-			System.err.println("Unable to execute statement query");
-			System.err.println("\tMessage:   " + e.getMessage());
-			System.err.println("\tSQLState:  " + e.getSQLState());
-			System.err.println("\tErrorCode: " + e.getErrorCode());
-			System.exit(-1);
-			*/
+			e.printStackTrace();
 		}
-
 		return result;
 	}
 
-	public ResultSet executeQueryAndPrint(String query) {
-		ResultSet result = null;
+	/**
+	 * Executes a query and prints out its resultset.
+	 * @param query, a string representing an SQL command.
+	 */
+	public void executeQueryAndPrint(String query) {
+		ResultSet result;
 		try {
 			result = this.stmt.executeQuery(query);
 						ResultSetMetaData rsmd = result.getMetaData();
@@ -130,19 +127,16 @@ public class dbConnection {
                             System.out.println();
 						}
 		} catch (SQLException e) {
-			/*
-			System.err.println("Unable to execute statement query");
-			System.err.println("\tMessage:   " + e.getMessage());
-			System.err.println("\tSQLState:  " + e.getSQLState());
-			System.err.println("\tErrorCode: " + e.getErrorCode());
-			System.exit(-1);
-			*/
+			e.printStackTrace();
 		}
-
-		return result;
 
 	}
 
+	/**
+	 * Executes an update command
+	 * @param query command to execute
+	 * @return number of rows that were changed by command
+	 */
 	public int executeUpdate(String query) {
 		int rowsEffected = 0;
 		try {
@@ -157,19 +151,21 @@ public class dbConnection {
 		return rowsEffected;
 	}
 
-	public Connection getConn() {
-		return db_conn;
-	}
-
+	/**
+	 * runs a commit operation on the SQL database
+	 */
 	public void commit() {
 		try{
 			this.db_conn.commit();
 		} catch (SQLException e) {
-
+			e.printStackTrace();
 		}
 	
 	}
 
+	/**
+	 * closes the statement in the DB connection.
+	 */
 	public void closeStatement() {
 		try {
 			this.stmt.close();
