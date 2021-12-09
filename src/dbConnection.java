@@ -91,7 +91,7 @@ public class dbConnection {
 		try {
 			result = this.stmt.executeQuery(query);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return result;
 	}
